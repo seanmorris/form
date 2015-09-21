@@ -1,0 +1,14 @@
+<?php
+namespace SeanMorris\Form\Theme\Form;
+class Field extends \SeanMorris\Ids\View
+{
+}
+__halt_Compiler();
+?>
+<label for = "<?=$fullname;?>"><?=$title?></label>
+<input <?php
+	foreach($attrs as $k => $v): ?> <?=$k?> = "<?=$v?>"<?php endforeach;
+ ?>/>
+ <?php /*
+<span style="font-size:smaller"><?=$fullname;?></span>
+*/ ?>
