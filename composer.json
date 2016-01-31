@@ -6,7 +6,18 @@
             "email": "sean@sean-morris.com"
         }
     ],
-    "require": {},
+    "require-dev": {
+        "simpletest/simpletest": "^1.1"
+    },
+    "require": {
+        "seanmorris/theme": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "/home/sean/packages/SeanMorris/Theme"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "SeanMorris\\Form\\Test\\": "test/",

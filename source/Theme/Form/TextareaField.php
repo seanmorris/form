@@ -2,10 +2,10 @@
 namespace SeanMorris\Form\Theme\Form;
 class TextareaField extends Field
 {
-	public function preprocess()
+	public function preprocess(&$vars)
 	{
-		unset($this->vars['attrs']['value']);
-		unset($this->vars['attrs']['type']);
+		unset($vars['attrs']['value']);
+		unset($vars['attrs']['type']);
 	}
 }
 __halt_Compiler();

@@ -1,6 +1,6 @@
 <?php
 namespace SeanMorris\Form\Theme\Form;
-class Field extends \SeanMorris\Ids\View
+class Field extends \SeanMorris\Theme\View
 {
 }
 __halt_Compiler();

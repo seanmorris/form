@@ -9,13 +9,13 @@ class Field
 		, $value
 		, $superior
 		, $type
-		, $mute
 		, $multi
 		, $array
 		, $locked
 		, $fieldDef
 		, $disabled
 		, $options
+		, $suppress = FALSE
 		, $validators = []
 		, $errors = []
 	;
@@ -51,9 +51,9 @@ class Field
 			$this->multi = $fieldDef['_multi'];
 		}
 
-		if(isset($fieldDef['_mute']))
+		if(isset($fieldDef['_suppress']))
 		{
-			$this->mute = $fieldDef['_mute'];
+			$this->suppress = $fieldDef['_suppress'];
 		}
 
 		if(isset($fieldDef['_options']))
@@ -84,8 +84,6 @@ class Field
 
 	public function set($value, $override = false)
 	{
-		// var_dump($value);
-
 		if($this->locked && !$override)
 		{
 			return;
@@ -117,6 +115,11 @@ class Field
 		return !$this->errors;
 	}
 
+	public function suppress()
+	{
+		return $this->suppress;
+	}
+
 	public function errors()
 	{
 		return $this->errors;
@@ -133,11 +136,6 @@ class Field
 		{
 			return $this->type;
 		}
-	}
-
-	public function suppress()
-	{
-		return false;
 	}
 
 	public function attrs()
@@ -206,37 +204,6 @@ class Field
 		if($this->superior && $this->superior->isArray())
 		{
 			$superior = $this->superior;
-
-			/*
-			$nameChain = [$fullname];
-			while($superior)
-			{
-				if($superior->isMulti() && isset($this->delta))
-				{
-					$nameChain[] = $this->delta;
-				}
-
-				if($superior->isArray())
-				{
-					$nameChain[] = $superior->attr('name');
-				}
-
-				if($superior->superior())
-				{
-					$superior = $superior->superior();
-				}
-				else
-				{
-					$superior = false;
-				}
-			}
-
-			$nameChain = array_reverse($nameChain);
-
-			$root = array_shift($nameChain);
-
-			$fullname = sprintf('%s[%s]', $root, implode('][', $nameChain));
-			*/
 
 			$fullname = $superior->fullname()
 				. (isset($fullname)

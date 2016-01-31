@@ -25,6 +25,7 @@ class Form
 			, 'submit' => 'SeanMorris\Form\SubmitField'
 			, 'button' => 'SeanMorris\Form\ButtonField'
 			, 'modelSearch' => 'SeanMorris\PressKit\Form\ModelSearchField'
+			, 'modelReference' => 'SeanMorris\PressKit\Form\ModelReferenceField'
 
 		]
 	;
@@ -46,7 +47,6 @@ class Form
 		}
 
 		$this->fields = static::processFieldDefs($skeleton);
-
 	}
 
 	public function processFieldDefs($skeleton, $array = false)
@@ -60,14 +60,37 @@ class Form
 				continue;
 			}
 
-			$type = isset($fieldDef['type']) ? $fieldDef['type'] : null;
+			$type = isset($fieldDef['type'])
+				? $fieldDef['type']
+				: null
+			;
 
-			if(!isset(static::$typesToClasses[$type]))
+			$fieldClass = NULL;
+			$curClass = get_called_class();
+
+			$fieldClass = isset($fieldDef['_class'])
+				? $fieldDef['_class']
+				: null
+			;
+
+			if(!$fieldClass)
 			{
-				$type = null;
+				while($curClass)
+				{
+					if(isset(static::$typesToClasses[$type]))
+					{
+						$fieldClass = static::$typesToClasses[$type];
+						break;
+					}
+
+					$curClass = get_parent_class($curClass);
+				}
 			}
 
-			$fieldClass = static::$typesToClasses[$type];
+			if(!$fieldClass)
+			{
+				$fieldClass = 'SeanMorris\Form\Field';
+			}
 
 			if($array)
 			{
@@ -127,6 +150,8 @@ class Form
 
 	public function setValues(array $values, $override = false)
 	{
+		\SeanMorris\Ids\Log::debug($values);
+
 		$fields = $this->fields;
 
 		foreach($values as $fieldName => $fieldValue)

@@ -21,9 +21,10 @@ class Fieldset extends Field
 			$this->array = $fieldDef['_array'];
 		}
 
-		if(isset($fieldDef['_multi']))
+		if(isset($fieldDef['_multi']) && $fieldDef['_multi'])
 		{
 			$fieldDef['-multi'] = $fieldDef['_multi'];
+			$fieldDef['_children'] = [$fieldDef['_children']];
 		}
 
 		if(isset($fieldDef['_cardinality']))
@@ -68,13 +69,18 @@ class Fieldset extends Field
 
 		$this->values = $values + $this->values;
 
+		$prototype = NULL;
+
 		if($this->multi && isset($this->children[0]))
 		{
 			$prototype = $this->children[0];
-			
+
+			$this->children = [-1 => NULL] + $this->children;
+
 			$this->children[-1] = clone $prototype;
 			$this->children[-1]->disabled = true;
 			$this->children[-1]->name = -1;
+			$this->children[-1]->suppress = true;
 
 			if($this->children[-1] instanceof Fieldset)
 			{

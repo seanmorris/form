@@ -20,5 +20,7 @@ class RegexValidator extends Validator
 				$this->errors[] = $error;
 			}
 		}
+
+		return !$this->errors;
 	}
 }

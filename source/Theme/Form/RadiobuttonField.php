@@ -1,8 +1,8 @@
 <?php
 namespace SeanMorris\Form\Theme\Form;
-class RadiobuttonField extends \SeanMorris\Ids\View
+class RadiobuttonField extends \SeanMorris\Theme\View
 {
-	public function preprocess()
+	public function preprocess(&$vars)
 	{
 		$options = $this->vars['options'];
 		$_options = [];
