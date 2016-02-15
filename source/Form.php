@@ -6,6 +6,7 @@ class Form
 		$method
 		, $action
 		, $enctype
+		, $theme
 		, $fields = []
 		, $errors = []
 	;
@@ -18,15 +19,12 @@ class Form
 			, 'hidden' => 'SeanMorris\Form\HiddenField'
 			, 'textarea' => 'SeanMorris\Form\TextareaField'
 			, 'fieldset' => 'SeanMorris\Form\Fieldset'
-			//, 'checkbox' => 'SeanMorris\Form\CheckboxField'
+			, 'checkbox' => 'SeanMorris\Form\CheckBoxField'
 			, 'radios' => 'SeanMorris\Form\RadiobuttonField'
 			, 'file' => 'SeanMorris\Form\FileField'
 			, 'html' => 'SeanMorris\Form\Html'
 			, 'submit' => 'SeanMorris\Form\SubmitField'
 			, 'button' => 'SeanMorris\Form\ButtonField'
-			, 'modelSearch' => 'SeanMorris\PressKit\Form\ModelSearchField'
-			, 'modelReference' => 'SeanMorris\PressKit\Form\ModelReferenceField'
-
 		]
 	;
 	
@@ -44,6 +42,11 @@ class Form
 		if(isset($skeleton['_action']))
 		{
 			$this->action = $skeleton['_action'];
+		}
+
+		if(isset($skeleton['_theme']))
+		{
+			$this->theme = $skeleton['_theme'];
 		}
 
 		$this->fields = static::processFieldDefs($skeleton);
@@ -77,9 +80,9 @@ class Form
 			{
 				while($curClass)
 				{
-					if(isset(static::$typesToClasses[$type]))
+					if(isset($curClass::$typesToClasses[$type]))
 					{
-						$fieldClass = static::$typesToClasses[$type];
+						$fieldClass = $curClass::$typesToClasses[$type];
 						break;
 					}
 
@@ -150,8 +153,6 @@ class Form
 
 	public function setValues(array $values, $override = false)
 	{
-		\SeanMorris\Ids\Log::debug($values);
-
 		$fields = $this->fields;
 
 		foreach($values as $fieldName => $fieldValue)
@@ -193,8 +194,13 @@ class Form
 		return $this->errors;
 	}
 
-	public function render($theme)
+	public function render($theme = NULL)
 	{
+		if(!$theme && $this->theme)
+		{
+			$theme = $this->theme;
+		}
+
 		$fields = [];
 
 		foreach($this->fields as $field)

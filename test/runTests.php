@@ -12,10 +12,11 @@ $return = 0;
 foreach($testClasses as $testClass)
 {
 	$test = new $testClass;
+	
 	if(!$test->run(new \TextReporter()))
 	{
 		$return = 1;
 	}
 }
 
-return $return;
+exit($return);
