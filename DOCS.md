@@ -2,6 +2,47 @@
 
 The guide to the Form library.
 
+## Usage
+
+Forms are build from arrays, called skeletons. They provide information about the fields of the form as well as the form itself. Pass the skeleton to the constructor, then call `render()` on the form object to render the form HTML.
+
+For example, the following form has a title textbox, a body textarea and a submit button. It will submit via POST.
+
+```php
+$skeleton['_method'] = 'POST';
+
+$skeleton['title'] = [
+	'_title' => 'Title'
+	, 'type' => 'text'
+];
+
+$skeleton['body'] = [
+	'_title' => 'Body'
+	, 'type' => 'textarea'
+];
+
+$skeleton['submit'] = [
+	'_title' => 'Submit'
+	, 'type' => 'submit'
+];
+
+$form = new \SeanMorris\Form\Form($skeleton);
+
+echo $form->render();
+
+```
+
+Forms can be populated with both the `setValues()` and `validate()` methods. Pass the coresponding array of input values into one or the other to fill values with user data.
+
+Calling `validate()` will also populate the forms errors if there is any validation attached to its fields. `validate()` itself returns booleans, but the `errors()` method can be called to get the list of errors generated.
+
+```php
+if(!$form->validate($_POST))
+{
+	$errors = $form->errors();
+}
+```
+
 ## Form Arguments
 
 ### _method
@@ -23,11 +64,11 @@ $skeleton['_action'] = '/submit/to/path';
 
 ### _theme
 
+Set a theme to render the form and its fields.
+
 ```php
 $skeleton['_theme'] = 'Namespace\ThemeClass';
 ```
-
-Set a theme to render the form and its fields.
 
 ## Field Types
 
@@ -45,7 +86,7 @@ $skeleton['someString'] = [
 
 ### Checkbox
 
-Checkbox fields will simply render a checklist with a value of 1 when checked.
+Checkbox fields will simply render a checkbox with a value of 1 when checked.
 
 ```php
 $skeleton['image'] = [
@@ -111,6 +152,7 @@ Hidden fields are passed to the browser but not rendered.
 ```php
 $skeleton['id'] = [
 	'type' => 'hidden'
+	, 'value' => $someVar
 ];
 ```
 
@@ -127,7 +169,7 @@ $skeleton['password'] = [
 
 ### Radios
 
-Password type fields will never render their own value, for security reasons.
+Radio button fields take the special `_options` key. It is an associative array of keys to values. Keys are the actual values submitted, and values are displayed to the user.
 
 ```php
 $skeleton['eyeColor'] = [
@@ -142,9 +184,26 @@ $skeleton['eyeColor'] = [
 ];
 ```
 
+### Select
+
+Select fields work almost the same way as field of the `radios` type. You can also use the `multiple` key (recommended value of which is also `"multiple"`)  to automatically append a `[]` to the submitted name, and allow the user to select multiple values.
+
+```php
+$skeleton['eyeColor'] = [
+	'_title' => 'Eye Color'
+	, 'type' => 'Select'
+	, '_options' => [
+		'blue' => 'Blue'
+		, 'brown' => 'Brown'
+		, 'green' => 'Green'
+		, 'hazel' => 'Hazel'
+	]
+];
+```
+
 ### Text Field
 
-Text fields are simple. Attributes like `maxlength` or `autocomplete` can be specified.
+Text fields are simple. Attributes like `maxlength` or `autocomplete` can be specified as keys.
 
 ```php
 $skeleton['someString'] = [
@@ -157,7 +216,7 @@ $skeleton['someString'] = [
 
 ### Textarea
 
-Textarea fields are almost as simple as text fields. Attributes like `rows` and `cols` can be specified.
+Textarea fields are almost as simple as text fields. Attributes like `rows` and `cols` can be specified as keys.
 
 ```php
 $skeleton['someString'] = [
@@ -168,6 +227,34 @@ $skeleton['someString'] = [
 ```
 
 ## Validators
+
+Validation is simple. The `_validators` key takes an array keyed by validator class names. The values are passed to the validator constructors as arguments.
+
+```php
+$skeleton['title'] = [
+	'_title' => 'Title'
+	, 'type' => 'text'
+	, '_validators' => [
+		'SeanMorris\Form\Validator\RequiredValidator' => 
+			'%s - Required.'
+	]
+];
+```
+
+### Required validator
+
+The required validator simply take an error message, to be displayed when the field is not filled in.  If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
+
+```php
+$skeleton['title'] = [
+	'_title' => 'Title'
+	, 'type' => 'text'
+	, '_validators' => [
+		'SeanMorris\Form\Validator\RequiredValidator' => 
+			'%s - Required.'
+	]
+];
+```
 
 ### Email validator
 
@@ -240,12 +327,12 @@ class ReusableForm extends \SeanMorris\Form\Form
 	}
 }
 
-
 $form = new ReusableForm();
 ```
+
 ## More...
 
-For the usage guide and field type list read [DOCS](DOCS.md).
+For the field type list, validator list, and usage guide read [DOCS](DOCS.md).
 
 For the guide to extending the library to create new field types, read [EXTENDING](EXTENDING.md).
 

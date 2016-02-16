@@ -152,8 +152,28 @@ class Form
 		return $values;
 	}
 
-	public function setValues(array $values, $override = false)
+	public function setValues(array $values = NULL, $override = false)
 	{
+		if($values === NULL)
+		{
+			if($this->method === 'POST')
+			{
+				$files = array_map(
+					function($file)
+					{
+						return (object)$file;
+					}
+					, $_FILES
+				);
+				
+				$values = $files + $_POST;
+			}
+			elseif($this->method === 'GET')
+			{
+				$values = $_GET;
+			}
+		}
+
 		$fields = $this->fields;
 
 		foreach($values as $fieldName => $fieldValue)
@@ -175,7 +195,7 @@ class Form
 		return $values;
 	}
 
-	public function validate($values)
+	public function validate(array $values = null)
 	{
 		$this->setValues($values, true);
 

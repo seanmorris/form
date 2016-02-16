@@ -4,7 +4,7 @@
 
 ## More...
 
-For the usage guide and field type list read [DOCS](DOCS.md).
+For the field type list, validator list, and usage guide read [DOCS](DOCS.md).
 
 For the guide to extending the library to create new field types, read [EXTENDING](EXTENDING.md).
 

@@ -4,9 +4,9 @@ class EmailValidator extends Validator
 {
 	protected $rules;
 
-	public function __construct($rules)
+	public function __construct($errorMessage)
 	{
-		$this->rules = $rules;
+		$this->errorMessage = $errorMessage;
 	}
 
 	public function validate($field, $form)

@@ -6,7 +6,14 @@ class CheckBoxField extends Field
 	{
 		if(!isset($vars['attrs']['value']))
 		{
-			$vars['attrs']['value'] = 1;
+			if(isset($vars['fieldDef']['_value']))
+			{
+				$vars['attrs']['value'] = $vars['fieldDef']['_value'];
+			}
+			else
+			{
+				$vars['attrs']['value'] = 1;
+			}
 		}
 		else
 		{

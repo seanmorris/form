@@ -177,6 +177,7 @@ class Field
 			, 'disabled' => $this->disabled
 			, 'options' => $this->options
 			, 'attrs' => $this->attrs()
+			, 'fieldDef' => $this->fieldDef
 		]);
 
 		return $rendered;
