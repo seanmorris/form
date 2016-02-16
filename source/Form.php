@@ -25,6 +25,7 @@ class Form
 			, 'html' => 'SeanMorris\Form\Html'
 			, 'submit' => 'SeanMorris\Form\SubmitField'
 			, 'button' => 'SeanMorris\Form\ButtonField'
+			, 'select' => 'SeanMorris\Form\SelectField'
 		]
 	;
 	
@@ -199,6 +200,11 @@ class Form
 		if(!$theme && $this->theme)
 		{
 			$theme = $this->theme;
+		}
+
+		if(!$theme)
+		{
+			$theme = 'SeanMorris\Form\Theme\Form\Theme';
 		}
 
 		$fields = [];

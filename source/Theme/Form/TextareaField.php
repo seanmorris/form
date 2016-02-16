@@ -10,7 +10,7 @@ class TextareaField extends Field
 }
 __halt_Compiler();
 ?>
-<label for = "<?=$fullname;?>"><?=$title?></label>
+<label for = "<?=$fullname;?>"><?=$title?>
 <textarea name = "<?=$fullname;?>" <?php
 	foreach($attrs as $k => $v): ?> <?=$k?> = "<?=$v?>"<?php endforeach;
-?>><?=$value;?></textarea>
+?>><?=$value;?></textarea></label>

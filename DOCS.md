@@ -2,9 +2,36 @@
 
 The guide to the Form library.
 
+## Form Arguments
+
+### _method
+
+Specify GET or POST to set the request type. Defaults to GET.
+
+PUT and DELETE are valid but will not be supported by most browsers.
+
+```php
+$skeleton['_method'] = 'POST';
+```
+### _action
+
+Set _action to submit the form to a URL other than the one it is served from.
+
+```php
+$skeleton['_action'] = '/submit/to/path';
+```
+
+### _theme
+
+```php
+$skeleton['_theme'] = 'Namespace\ThemeClass';
+```
+
+Set a theme to render the form and its fields.
+
 ## Field Types
 
-Elements without a `text` key will render as text inputs, but it is still recommeneded to supply the type for text fields.
+Elements without a `type` key will render as text inputs, but it is still recommeneded to supply the type for text fields.
 
 If necesary, see [EXTENDING](EXTENDING.md) if new fieldtypes need to be created.
 
@@ -193,7 +220,7 @@ $skeleton['testField'] = [
 
 ## Reusable Forms
 
-You can extend the Form class to create a Reusable Form. You'll need to override the constructor to intercept the $skeleton.
+You can extend the Form class to create a Reusable Form. You'll need to override the constructor to intercept the $skeleton. You can then build the form on the existing skeleton. You can use the skeleton array submitted to the constructor to allow fields to be added on the fly.
 
 Just remember to call the parent constructor afterward.
 
@@ -212,6 +239,9 @@ class ReusableForm extends \SeanMorris\Form\Form
 		parent::__construct($skeleton);
 	}
 }
+
+
+$form = new ReusableForm();
 ```
 ## More...
 
