@@ -159,7 +159,8 @@ class Field
 		}
 
 		$attrs['name'] = $this->fullname();
-		$attrs['value'] = $this->value;
+		//$attrs['value'] = $this->suppress ? NULL : $this->value;
+		unset($attrs['value']);
 
 		return $attrs;
 	}
@@ -170,7 +171,7 @@ class Field
 			'name' => $this->name
 			, 'fullname' => $this->fullname()
 			, 'type' => $this->type
-			, 'value' => $this->value
+			, 'value' => $this->suppress ? NULL : $this->value
 			, 'title' => $this->title
 			, 'mutli' => $this->multi
 			, 'superior' => $this->superior

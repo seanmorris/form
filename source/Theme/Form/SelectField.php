@@ -5,35 +5,30 @@ class SelectField extends OptionField
 	public function preprocess(&$vars)
 	{
 		parent::preprocess($vars);
-		
-		$tag_attributes = [];
 
 		$vars['selected'] = [];
+
+		if(isset($vars['attrs']['multiple'])
+			&& $vars['attrs']['multiple']
+			&& isset($vars['value'])
+			&& is_array($vars['value'])
+		){
+			foreach($vars['value'] as $selected)
+			{
+				$vars['selected'][$selected] = TRUE;
+			}
+		}
+		elseif(isset($vars['value']) && !is_array($vars['value']))
+		{
+			$vars['selected'][$vars['value']] = TRUE;
+		}
+
 		$vars['select_attrs'] = NULL;
 
-		if(!$vars['attrs'])
-		{
-			return;
-		}
+		$tag_attributes = [];
 
 		foreach($vars['attrs'] as $attr => $val)
 		{
-			if(isset($vars['attrs']['multiple'])
-				&& $vars['attrs']['multiple']
-				&& $attr == 'value'
-			){
-				if(!is_array($val))
-				{
-					break;
-				}
-				
-				foreach($val as $selected)
-				{
-					$vars['selected'][$selected] = TRUE;
-				}
-				continue;
-			}
-
 			$tag_attributes[] = sprintf(
 				'%s = "%s"'
 				, $attr
@@ -46,14 +41,12 @@ class SelectField extends OptionField
 }
 __halt_compiler();
 ?>
-<label><?=$title;?>
-<select name = "<?=$fullname; ?>" <?=$select_attrs;?> />
+<label for = "<?=$fullname;?>"><?=$title;?> <span class = "required"><?=$indicator;?></span>
+<select <?=$select_attrs;?>>
 <?php foreach($options as $label => $optionValue): ?>
 		<option value = "<?=$optionValue; ?>" <?php 
 			if (isset($selected[$optionValue])):?>selected="selected"<?php
-				endif; ?>>
-		<?=$label; ?>
-		</option>
+				endif; ?>><?=$label; ?></option>
 <?php endforeach; ?>	
 </select>
 </label>

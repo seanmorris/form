@@ -1,9 +1,11 @@
 <?php
 namespace SeanMorris\Form\Theme\Form;
-class OptionField extends \SeanMorris\Theme\View
+class OptionField extends Field
 {
 	public function preprocess(&$vars)
 	{
+		parent::preprocess($vars);
+
 		$options = $this->vars['options'];
 		$_options = [];
 

@@ -1,10 +1,5 @@
 <?php
 namespace SeanMorris\Form\Theme\Form;
-class FileField extends \SeanMorris\Theme\View
+class FileField extends Field
 {
 }
-__halt_Compiler();
-?>
-<label for = "<?=$fullname;?>"><?=$title?>
-<input name = "<?=$fullname;?>" type = "<?=$type;?>" />
-</label>

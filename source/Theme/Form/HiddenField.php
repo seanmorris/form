@@ -8,4 +8,4 @@ __halt_compiler();
 ?>
 <input <?php
 	foreach($attrs as $k => $v): ?> <?=$k?> = "<?=$v?>"<?php endforeach;
-?>/ type = "hidden" name = "<?=$fullname;?>" value = "<?=$value;?>" />
+?>/ />

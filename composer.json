@@ -10,7 +10,7 @@
         "simpletest/simpletest": "^1.1"
     },
     "require": {
-        "seanmorris/theme": "dev-master"
+        "SeanMorris/Theme": "^1.0"
     },
     "repositories": [
         {

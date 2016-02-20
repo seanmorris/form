@@ -4,15 +4,16 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0989286cc7fbf7c1ea4472eceebca5b9",
+    "hash": "1f4038e5389b2b50bcb1969387f134a8",
+    "content-hash": "add1f89201dba8f5cf480658573f64ee",
     "packages": [
         {
             "name": "seanmorris/theme",
-            "version": "dev-master",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "/home/sean/packages/SeanMorris/Theme",
-                "reference": "0a43a22821390dbf27228aa03a8a03063ba4a5ff"
+                "reference": "679c096c8fb97ccf67a7b0bf31ce581f00125665"
             },
             "require-dev": {
                 "simpletest/simpletest": "dev-master"
@@ -24,6 +25,9 @@
                     "SeanMorris\\Theme\\": "source/"
                 }
             },
+            "license": [
+                "Apache-2.0"
+            ],
             "authors": [
                 {
                     "name": "Sean Morris",
@@ -31,26 +35,30 @@
                 }
             ],
             "description": "Simple, sane templating and theming for PHP",
-            "time": "2015-09-21 22:38:11"
+            "time": "2016-02-20 22:14:35"
         }
     ],
     "packages-dev": [
         {
             "name": "simpletest/simpletest",
-            "version": "v1.1.6",
+            "version": "v1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simpletest/simpletest.git",
-                "reference": "43d947f842b7295c091a57c979a4533d3d6e9212"
+                "reference": "2f8c466c114bdb9c11028a0c3e6d1380ae6a18dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simpletest/simpletest/zipball/43d947f842b7295c091a57c979a4533d3d6e9212",
-                "reference": "43d947f842b7295c091a57c979a4533d3d6e9212",
+                "url": "https://api.github.com/repos/simpletest/simpletest/zipball/2f8c466c114bdb9c11028a0c3e6d1380ae6a18dc",
+                "reference": "2f8c466c114bdb9c11028a0c3e6d1380ae6a18dc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.0.5"
+            },
+            "replace": {
+                "lastcraft/simpletest": "self.version",
+                "vierbergenlars/simpletest": "self.version"
             },
             "type": "library",
             "autoload": {
@@ -98,21 +106,16 @@
             "keywords": [
                 "SimpleTest",
                 "code-coverage",
-                "junit",
-                "php",
                 "selenium",
                 "testing",
-                "unit-test",
-                "xunit"
+                "unit-test"
             ],
-            "time": "2013-09-21 21:04:19"
+            "time": "2015-09-21 18:19:52"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "seanmorris/theme": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

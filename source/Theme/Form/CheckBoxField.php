@@ -4,15 +4,17 @@ class CheckBoxField extends Field
 {
 	public function preprocess(&$vars)
 	{
-		if(!isset($vars['attrs']['value']))
+		parent::preprocess($vars);
+		
+		if(!isset($vars['value']))
 		{
 			if(isset($vars['fieldDef']['_value']))
 			{
-				$vars['attrs']['value'] = $vars['fieldDef']['_value'];
+				$vars['value'] = $vars['fieldDef']['_value'];
 			}
 			else
 			{
-				$vars['attrs']['value'] = 1;
+				$vars['value'] = 1;
 			}
 		}
 		else
@@ -23,8 +25,12 @@ class CheckBoxField extends Field
 }
 __halt_Compiler();
 ?>
-<label>
+<label for = "<?=$fullname;?>">
 <input <?php
 	foreach($attrs as $k => $v): ?> <?=$k?> = "<?=$v?>"<?php endforeach;
- ?> value = "1" />
- <?=$title;?></label>
+?> />
+<?=$title;?> <span class = "required"><?=$indicator;?></span>
+ <?php if(isset($caption)): ?>
+ 	<span class = "caption"><?=$caption; ?></span>
+ <?php endif;?>
+</label>

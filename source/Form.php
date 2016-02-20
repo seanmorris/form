@@ -128,12 +128,12 @@ class Form
 
 		foreach($fields as $fieldName => $field)
 		{
-			if($field->suppress())
+			$fieldValue = $field->value($this);
+
+			if($fieldset && $fieldset->isMulti() && $fieldName == -1)
 			{
 				continue;
 			}
-
-			$fieldValue = $field->value($this);
 
 			if($field->isArray() && is_array($fieldValue))
 			{
