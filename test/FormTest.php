@@ -254,7 +254,7 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 			$childTag = $this->getTag($tag, 'input', ['name' => $fieldName]);
 			$childVal = $this->getAttr($childTag, 'value');
 
-			$this->assertEqual($childVal, $value, sprintf('Child tag %s value incorrect.', $fieldName));
+			$this->assertEqual($childVal, $value, sprintf('Child tag %s rendered value incorrect.', $fieldName));
 		}
 	}
 
@@ -277,6 +277,24 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$skeleton['testFieldset'] += ['_array' => TRUE];
 		$arrayForm = new \SeanMorris\Form\Form($skeleton);
+
+		$renderedForm = (string)$arrayForm->render();
+		$tag = $this->getTag($renderedForm, 'fieldset');
+		$this->assertTrue($tag, 'Field tag not found in rendered form.');
+
+		foreach($testValues['testFieldset'] as $fieldName => $value)
+		{
+			if($fieldName == 'testD')
+			{
+				continue;
+			}
+
+			$childName = sprintf('testFieldset[%s]', $fieldName);
+			$childTag = $this->getTag($tag, 'input', ['name' => $childName]);
+
+			$this->assertTrue($childTag, sprintf('Child tag %s not found in rendered fieldset.', $childName));
+		}
+
 		$arrayForm->setValues($testValues);
 
 		$formVals = $arrayForm->getValues();
@@ -294,6 +312,25 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 			, $testValues
 			, 'Bad value returned for getValues on array form.'
 		);
+
+		$renderedForm = (string)$arrayForm->render();
+
+		$tag = $this->getTag($renderedForm, 'fieldset');
+		$this->assertTrue($tag, 'Field tag not found in rendered form.');
+
+		foreach($testValues['testFieldset'] as $fieldName => $value)
+		{
+			if($fieldName == 'testD')
+			{
+				continue;
+			}
+
+			$childName = sprintf('testFieldset[%s]', $fieldName);
+			$childTag = $this->getTag($tag, 'input', ['name' => $childName]);
+			$childVal = $this->getAttr($childTag, 'value');
+
+			$this->assertEqual($childVal, $value, sprintf('Child tag %s rendered value incorrect.', $fieldName));
+		}
 	}
 
 	/**
@@ -332,7 +369,6 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 			]
 		];
 
-		$multiForm = new \SeanMorris\Form\Form($skeleton);
 		$multiValues = [ 'testFieldset' => [
 			0 => [
 				'testA' => 111
@@ -346,6 +382,32 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 				, 'testD' => 666
 			]
 		]];
+
+		$multiForm = new \SeanMorris\Form\Form($skeleton);
+
+		$renderedForm = (string)$multiForm->render();
+		$tag = $this->getTag($renderedForm, 'fieldset');
+		$this->assertTrue($tag, 'Field tag not found in rendered form.');
+
+		foreach($multiValues['testFieldset'] as $fieldset => $fields)
+		{
+			if($fieldset == 1)
+			{
+				continue;
+			}
+
+			foreach($fields as $fieldName => $value)
+			{
+				if($fieldName == 'testD')
+				{
+					continue;
+				}
+
+				$childName = sprintf('testFieldset[%d][%s]', $fieldset, $fieldName);
+				$childTag = $this->getTag($tag, 'input', ['name' => $childName]);
+				$this->assertTrue($childTag, sprintf('Child tag %s not found in rendered fieldset.', $childName));
+			}
+		}
 
 		$multiForm->setValues($multiValues);
 
@@ -364,6 +426,25 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 			, $multiValues
 			, 'Bad value returned for getValues on multi form.'
 		);
+
+		$renderedForm = (string)$multiForm->render();
+		$tag = $this->getTag($renderedForm, 'fieldset');
+		$this->assertTrue($tag, 'Field tag not found in rendered form.');
+
+		foreach($multiValues['testFieldset'] as $fieldset => $fields)
+		{
+			foreach($fields as $fieldName => $value)
+			{
+				if($fieldName == 'testD')
+				{
+					continue;
+				}
+
+				$childName = sprintf('testFieldset[%d][%s]', $fieldset, $fieldName);
+				$childTag = $this->getTag($tag, 'input', ['name' => $childName]);
+				$this->assertTrue($childTag, sprintf('Child tag %s not found in rendered fieldset.', $childName));
+			}
+		}
 	}
 
 	/**
@@ -482,7 +563,7 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		$this->assertTrue($tag, 'Checkbox field tag not found in rendered form.');
 		
 		$value = $this->getAttr($tag, 'checked');
-		$this->assertTrue($value, 'Checkbox left checked.');
+		$this->assertTrue($value, 'Checkbox not checked.');
 	}
 
 	/**
