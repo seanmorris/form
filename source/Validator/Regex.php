@@ -9,9 +9,9 @@ class Regex extends Validator
 		$this->rules = $rules;
 	}
 
-	public function validate($field, $form)
+	public function validate($form, $field = NULL)
 	{
-		parent::validate($field, $form);
+		parent::validate($form, $field);
 		
 		$value = $field->value($form);
 

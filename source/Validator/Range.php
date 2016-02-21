@@ -36,9 +36,9 @@ class Range extends Validator
 		}
 	}
 
-	public function validate($field, $form)
+	public function validate($form, $field = NULL)
 	{
-		parent::validate($field, $form);
+		parent::validate($form, $field);
 		reset($this->rules);
 
 		$nan = key($this->rules);

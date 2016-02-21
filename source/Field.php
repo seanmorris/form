@@ -131,7 +131,7 @@ class Field
 
 		foreach($this->validators as $validator)
 		{
-			if(!$validator->validate($this, $this->form))
+			if(!$validator->validate($this->form, $this))
 			{
 				$this->errors = array_merge($this->errors, $validator->errors());
 			}

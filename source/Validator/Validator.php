@@ -9,7 +9,7 @@ abstract class Validator
 		return $this->errors;
 	}
 
-	public function validate($field, $form)
+	public function validate($form, $field = NULL)
 	{
 		$this->errors = [];
 		return true;
