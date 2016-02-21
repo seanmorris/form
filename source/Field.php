@@ -26,6 +26,7 @@ class Field
 			, '_email' => 'SeanMorris\Form\Validator\Email'
 			, '_range' => 'SeanMorris\Form\Validator\Range'
 			, '_regex' => 'SeanMorris\Form\Validator\regex'
+			, '_confirm' => 'SeanMorris\Form\Validator\confirm'
 		]
 	;
 
@@ -77,7 +78,7 @@ class Field
 		{
 			foreach($curClass::$validatorShorthand as $key => $class)
 			{
-				if(isset($fieldDef[$key]) && !isset($fieldDef[$class]))
+				if(isset($fieldDef[$key]) && !isset($fieldDef['_validators'][$class]))
 				{
 					$fieldDef['_validators'][$class] = $fieldDef[$key];
 				}
@@ -86,7 +87,7 @@ class Field
 			$curClass = get_parent_class($curClass);
 		}
 
-		if(isset($fieldDef['_validators']))
+		if(isset($fieldDef['_validators']) && is_array($fieldDef['_validators']))
 		{
 			foreach($fieldDef['_validators'] as $class => $args)
 			{
@@ -211,6 +212,11 @@ class Field
 		]);
 
 		return $rendered;
+	}
+
+	public function title()
+	{
+		return $this->title;
 	}
 
 	public function superior()

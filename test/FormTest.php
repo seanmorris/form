@@ -450,6 +450,44 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 	/**
 	 * Tests a Text field.
 	 */
+	public function testTextareaFieldHtml()
+	{
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'textarea'
+				, '_title' => 'Test Field'
+			]
+		]);
+
+		$testValue = 'This is a testing value. ' . mt_rand();
+
+		$form->setValues(['testField' => $testValue]);
+		$values = $form->getValues();
+
+		$renderedForm = (string)$form->render();
+
+		$tag = $this->getTag($renderedForm, 'textarea', ['name' => 'testField']);
+		$this->assertTrue($tag, 'Textarea Field tag not found in rendered form.');
+
+		$value = $this->getText($tag);
+		$this->assertEqual($value, $testValue, 'Textarea field value not found in rendered HTML.');
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'textarea'
+				, '_title' => 'Test Field'
+				, '_required' => 'Test field is required.'
+			]
+		]);
+
+		$renderedForm = (string)$form->render();
+		$tag = $this->getTag($renderedForm, 'span', ['class' => 'required']);
+		$this->assertTrue($tag, 'Required annotation not found on textarea field.');
+	}
+
+	/**
+	 * Tests a Text field.
+	 */
 	public function testTextFieldHtml()
 	{
 		$form = new \SeanMorris\Form\Form([
@@ -1007,7 +1045,86 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$this->assertFalse(
 			in_array($testErrorMessage, $form->errors())
-			, 'Invalid email error found with valid email present. Shorthand syntax.'
+		, 'Invalid email error found with valid email present. Shorthand syntax.'
 		);
+	}
+
+	/**
+	 * Tests the Required validator.
+	 */
+	public function testConfirmValidator()
+	{
+		$testErrorMessage = "Test field must match confirmation field.";
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'password'
+				, '_title' => 'Test Field'
+				, '_validators' => [
+					'SeanMorris\Form\Validator\Confirm' => [
+						'confirmTestField' => $testErrorMessage
+					]
+				]
+			]
+			, 'confirmTestField' => [
+				'type' => 'password'
+				, '_title' => 'Confirm Test Field'
+			]
+		]);
+
+		$form->validate([]);
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+
+		$form->validate([
+			'testField' => 'x'
+			, 'confirmTestField' => 'y'
+		]);
+	
+		$this->assertTrue(
+			in_array($testErrorMessage, $form->errors())
+			, 'Confirmation error not found.'
+		);
+
+		$form->validate([
+			'testField' => 'x'
+			, 'confirmTestField' => 'x'
+		]);
+		
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'password'
+				, '_title' => 'Test Field'
+				, '_confirm' => [
+					'confirmTestField' => $testErrorMessage
+				]
+			]
+			, 'confirmTestField' => [
+				'type' => 'password'
+				, '_title' => 'Confirm Test Field'
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+
+		$form->validate([
+			'testField' => 'x'
+			, 'confirmTestField' => 'y'
+		]);
+	
+		$this->assertTrue(
+			in_array($testErrorMessage, $form->errors())
+			, 'Confirmation error not found.'
+		);
+
+		$form->validate([
+			'testField' => 'x'
+			, 'confirmTestField' => 'x'
+		]);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
 	}
 }

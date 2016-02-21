@@ -250,4 +250,9 @@ class Form
 
 		return $rendered;
 	}
+
+	public function fields()
+	{
+		return $this->fields;
+	}
 }

@@ -34,7 +34,7 @@ echo $form->render();
 
 Forms can be populated with both the `setValues()` and `validate()` methods. Pass the coresponding array of input values into one or the other to fill values with user data.
 
-Calling `validate()` will also populate the forms errors if there is any validation attached to its fields. `validate()` itself returns booleans, but the `errors()` method can be called to get the list of errors generated.
+Calling `validate()` will also populate the forms errors if there are any validators attached to the fields. `validate()` itself returns booleans, but the `errors()` method can be called to get the list of errors generated.
 
 ```php
 if(!$form->validate($_POST))
@@ -66,8 +66,17 @@ $skeleton['_action'] = '/submit/to/path';
 
 Set a theme to render the form and its fields. If its not supplied, `SeanMorris\Form\Theme\Form\Theme` will be used.
 
+A theme class name can also be passed as the first param to the `render()` method, which will override the value provided in the skeleton.
+
+
 ```php
 $skeleton['_theme'] = 'Namespace\ThemeClass';
+```
+
+-or-
+
+```php
+$form->render('Namespace\ThemeClass');
 ```
 
 ## Field Types
@@ -226,22 +235,30 @@ $skeleton['someString'] = [
 ];
 ```
 
-## Validators
+### Aditional Fields.
 
-Validation is simple. The `_validators` key takes an array keyed by validator class names. The values are passed to the validator constructors as arguments.
+New fields can be created by extending the base class `SeanMorris\Form\Field` The `_class` key takes class name to use for the field. If you want to render the field with a custom template, see [EXTENDING](EXTENDING.md) for advanced topics.
 
 ```php
 $skeleton['title'] = [
 	'_title' => 'Title'
 	, 'type' => 'text'
 	, '_validators' => [
-		'SeanMorris\Form\Validator\Required' => 
-			'%s - Required.'
-	]
+   	  'SeanMorris\Form\Validator\Regex' => [
+        '/.{8,}/' => '%s must be at least 8 characters'
+      ]
+    ]
+  ]
 ];
 ```
 
+## Validators
+
+Validation is simple. There are a few validators that can be used with some special field skeleton keys.
+
 ### Required validator
+
+Special key: `_required`.
 
 The required validator simply take an error message, to be displayed when the field is not filled in.  If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
 
@@ -249,14 +266,13 @@ The required validator simply take an error message, to be displayed when the fi
 $skeleton['title'] = [
 	'_title' => 'Title'
 	, 'type' => 'text'
-	, '_validators' => [
-		'SeanMorris\Form\Validator\Required' => 
-			'%s - Required.'
-	]
+	, '_required' => '%s - Required.'
 ];
 ```
 
 ### Email validator
+
+Special key: `_email`.
 
 The Email Validator take a single error string. If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
 
@@ -264,13 +280,13 @@ The Email Validator take a single error string. If `%s` or `%1$s` appears in the
 $skeleton['email'] = [
 	'_title' => 'Email'
 	, 'type' => 'text'
-	, '_validators' => [
-		'SeanMorris\Form\Validator\Email' => '%s must be a valid email.'
-	]
+	, '_email' => '%s must be a valid email.'
 ];
 ```
 
 ### Range Validator
+
+Special key: `_range`.
 
 The Range Validator take an array of 3 keys, mapped to their error strings. The smaller numerical key is the minimum value of the input, the larger is the maxiumum. The string key 'nan' specifies the error to display when a non numerican value is submitted. If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
 
@@ -278,12 +294,10 @@ The Range Validator take an array of 3 keys, mapped to their error strings. The 
 $skeleton['testField'] = [
   'type' => 'number'
   , '_title' => 'Test Field'
-  , '_validators' => [
-    'SeanMorris\Form\Validator\Range' => [
-      0 => '%s must be at least 0.'
-      , 10 => '%s must be no greater than 10.'
-      , 'nan' => '%s must be a numberical value.'
-    ]
+  , '_range' => [
+    0 => '%s must be at least 0.'
+    , 10 => '%s must be no greater than 10.'
+    , 'nan' => '%s must be a numberical value.'
   ]
 ];
 ```
@@ -291,15 +305,31 @@ $skeleton['testField'] = [
 ### Regex Validator
 Class `SeanMorris\Form\Validator\Regex`
 
+Special key: `_regex`.
+
 The Regex validator takes an array of error messages, keyed by regex patterns. If the input value doesn't match any pattern, its error will be raised. If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
 
 ```php
 $skeleton['testField'] = [
   'type' => 'text'
   , '_title' => 'Test Field'
-  , '_validators' => [
-    'SeanMorris\Form\Validator\Regex' => [
-      '/.{8,}/' => '%s must be at least 8 characters'
+  , '_regex' => [
+     '/.{8,}/' => '%s must be at least 8 characters'
+  ]
+];
+```
+### Aditional validators.
+
+New validators can be created by extending the base class `SeanMorris\Form\Validator\Validator` The `_validators` key takes an array keyed by validator class names. The values are passed to the validator constructors as arguments. See [EXTENDING](EXTENDING.md) for more information on customization.
+
+```php
+$skeleton['title'] = [
+	'_title' => 'Title'
+	, 'type' => 'text'
+	, '_validators' => [
+   	  'SeanMorris\Form\Validator\Regex' => [
+        '/.{8,}/' => '%s must be at least 8 characters'
+      ]
     ]
   ]
 ];
@@ -307,7 +337,7 @@ $skeleton['testField'] = [
 
 ## Reusable Forms
 
-You can extend the Form class to create a Reusable Form. You'll need to override the constructor to intercept the $skeleton. You can then build the form on the existing skeleton. You can use the skeleton array submitted to the constructor to allow fields to be added on the fly.
+You can extend the Form class to create a Reusable Form. You'll need to override the constructor to intercept the $skeleton. You can then build the form on the existing skeleton. You can use the skeleton array submitted to the constructor to allow fields to be added on the fly. See [EXTENDING](EXTENDING.md) for more information on customization.
 
 Just remember to call the parent constructor afterward.
 

@@ -12,7 +12,7 @@ class TextareaField extends Field
 __halt_Compiler();
 ?>
 <label for = "<?=$fullname;?>"><?=$title?> <span class = "required"><?=$indicator;?></span>
-<textarea <?php
+<textarea<?php
 	foreach($attrs as $k => $v): ?> <?=$k?> = "<?=$v?>"<?php endforeach;
 ?>><?=$value;?></textarea>
 <?php if(isset($caption)): ?>
