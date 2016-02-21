@@ -1,6 +1,6 @@
 <?php
 namespace SeanMorris\Form\Validator;
-class RegexValidator extends Validator
+class Regex extends Validator
 {
 	protected $rules;
 

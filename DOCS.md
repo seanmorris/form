@@ -64,7 +64,7 @@ $skeleton['_action'] = '/submit/to/path';
 
 ### _theme
 
-Set a theme to render the form and its fields.
+Set a theme to render the form and its fields. If its not supplied, `SeanMorris\Form\Theme\Form\Theme` will be used.
 
 ```php
 $skeleton['_theme'] = 'Namespace\ThemeClass';
@@ -235,7 +235,7 @@ $skeleton['title'] = [
 	'_title' => 'Title'
 	, 'type' => 'text'
 	, '_validators' => [
-		'SeanMorris\Form\Validator\RequiredValidator' => 
+		'SeanMorris\Form\Validator\Required' => 
 			'%s - Required.'
 	]
 ];
@@ -250,7 +250,7 @@ $skeleton['title'] = [
 	'_title' => 'Title'
 	, 'type' => 'text'
 	, '_validators' => [
-		'SeanMorris\Form\Validator\RequiredValidator' => 
+		'SeanMorris\Form\Validator\Required' => 
 			'%s - Required.'
 	]
 ];
@@ -265,7 +265,7 @@ $skeleton['email'] = [
 	'_title' => 'Email'
 	, 'type' => 'text'
 	, '_validators' => [
-		'SeanMorris\Form\Validator\EmailValidator' => '%s must be a valid email.'
+		'SeanMorris\Form\Validator\Email' => '%s must be a valid email.'
 	]
 ];
 ```
@@ -279,7 +279,7 @@ $skeleton['testField'] = [
   'type' => 'number'
   , '_title' => 'Test Field'
   , '_validators' => [
-    'SeanMorris\Form\Validator\RangeValidator' => [
+    'SeanMorris\Form\Validator\Range' => [
       0 => '%s must be at least 0.'
       , 10 => '%s must be no greater than 10.'
       , 'nan' => '%s must be a numberical value.'
@@ -289,7 +289,7 @@ $skeleton['testField'] = [
 ```
 
 ### Regex Validator
-Class `SeanMorris\Form\Validator\RegexValidator`
+Class `SeanMorris\Form\Validator\Regex`
 
 The Regex validator takes an array of error messages, keyed by regex patterns. If the input value doesn't match any pattern, its error will be raised. If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
 
@@ -298,7 +298,7 @@ $skeleton['testField'] = [
   'type' => 'text'
   , '_title' => 'Test Field'
   , '_validators' => [
-    'SeanMorris\Form\Validator\RegexValidator' => [
+    'SeanMorris\Form\Validator\Regex' => [
       '/.{8,}/' => '%s must be at least 8 characters'
     ]
   ]

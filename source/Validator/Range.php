@@ -1,6 +1,6 @@
 <?php
 namespace SeanMorris\Form\Validator;
-class RangeValidator extends Validator
+class Range extends Validator
 {
 	protected $rules, $messages;
 

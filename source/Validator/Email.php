@@ -1,6 +1,6 @@
 <?php
 namespace SeanMorris\Form\Validator;
-class EmailValidator extends Validator
+class Email extends Validator
 {
 	protected $rules;
 

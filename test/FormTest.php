@@ -601,4 +601,24 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		$tag = $this->getTag($renderedForm, 'input', ['type' => 'submit']);
 		$this->assertTrue($tag, 'Button tag not found in rendered form.');
 	}
+
+	/**
+	 * Tests the Required validator.
+	 */
+	public function testRequiredValidator()
+	{
+		$testErrorMessage = "Test field is required.";
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'submit'
+				, '_title' => 'Test Field'
+				, '_validators' => [
+					'SeanMorris\Form\Validator\Required' => $testErrorMessage
+				]
+			]
+		]);
+
+		$form->validate([]);
+	}
 }
