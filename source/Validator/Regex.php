@@ -11,11 +11,13 @@ class Regex extends Validator
 
 	public function validate($field, $form)
 	{
+		parent::validate($field, $form);
+		
 		$value = $field->value($form);
 
 		foreach($this->rules as $rule => $error)
 		{
-			if(!preg_match($rule, $value))
+			if(isset($value) && !preg_match($rule, $value))
 			{
 				$this->errors[] = $error;
 			}

@@ -8,6 +8,8 @@ class Range extends Validator
 	{
 		$min = 0;
 		$max = 0;
+		
+		ksort($rules);
 
 		foreach($rules as $rule => $error)
 		{
@@ -32,14 +34,13 @@ class Range extends Validator
 				$this->rules['nan'] = $error;
 			}
 		}
-
-		ksort($this->rules);
 	}
 
 	public function validate($field, $form)
 	{
+		parent::validate($field, $form);
 		reset($this->rules);
-		
+
 		$nan = key($this->rules);
 		next($this->rules);
 		
@@ -51,21 +52,21 @@ class Range extends Validator
 
 		$val = $field->value($form);
 
-		if(!is_numeric($val))
+		if(isset($val) && !is_numeric($val))
 		{
 			$this->errors[] = $this->rules[$nan];
 
 			return FALSE;
 		}
 
-		if($val < $min)
+		if(isset($val) && $val < $min)
 		{
 			$this->errors[] = $this->rules[$min];
 
 			return FALSE;
 		}
 
-		if($val > $max)
+		if(isset($val) && $val > $max)
 		{
 			$this->errors[] = $this->rules[$max];
 

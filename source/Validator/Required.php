@@ -11,6 +11,8 @@ class Required extends Validator
 
 	public function validate($field, $form)
 	{
+		parent::validate($field, $form);
+
 		$value = $field->value($form);
 
 		if(!strlen($value))

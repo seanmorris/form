@@ -154,6 +154,8 @@ class Form
 
 	public function setValues(array $values = NULL, $override = false)
 	{
+		$this->errors = [];
+		
 		if($values === NULL)
 		{
 			if($this->method === 'POST')

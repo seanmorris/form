@@ -19,6 +19,16 @@ class Field
 		, $validators = []
 		, $errors = []
 	;
+
+	protected static
+		$validatorShorthand = [
+			'_required' => 'SeanMorris\Form\Validator\Required'
+			, '_email' => 'SeanMorris\Form\Validator\Email'
+			, '_range' => 'SeanMorris\Form\Validator\Range'
+			, '_regex' => 'SeanMorris\Form\Validator\regex'
+		]
+	;
+
 	public function __construct($fieldDef, $form)
 	{
 		if(isset($fieldDef['name']))
@@ -61,6 +71,21 @@ class Field
 			$this->options = $fieldDef['_options'];
 		}
 
+		$curClass = get_called_class();
+
+		while($curClass)
+		{
+			foreach($curClass::$validatorShorthand as $key => $class)
+			{
+				if(isset($fieldDef[$key]) && !isset($fieldDef[$class]))
+				{
+					$fieldDef['_validators'][$class] = $fieldDef[$key];
+				}
+			}
+
+			$curClass = get_parent_class($curClass);
+		}
+
 		if(isset($fieldDef['_validators']))
 		{
 			foreach($fieldDef['_validators'] as $class => $args)
@@ -84,6 +109,8 @@ class Field
 
 	public function set($value, $override = false)
 	{
+		$this->errors = [];
+
 		if($this->locked && !$override)
 		{
 			return;
@@ -99,17 +126,19 @@ class Field
 
 	public function validate()
 	{
+		$this->errors = [];
+
 		foreach($this->validators as $validator)
 		{
 			if(!$validator->validate($this, $this->form))
 			{
 				$this->errors = array_merge($this->errors, $validator->errors());
 			}
+		}
 
-			foreach($this->errors as &$error)
-			{
-				$error = sprintf($error, $this->title);
-			}
+		foreach($this->errors as &$error)
+		{
+			$error = sprintf($error, $this->title);
 		}
 
 		return !$this->errors;

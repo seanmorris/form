@@ -448,6 +448,44 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 	}
 
 	/**
+	 * Tests a Text field.
+	 */
+	public function testTextFieldHtml()
+	{
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'text'
+				, '_title' => 'Test Field'
+			]
+		]);
+
+		$testValue = 'This is a testing value. ' . mt_rand();
+
+		$form->setValues(['testField' => $testValue]);
+		$values = $form->getValues();
+
+		$renderedForm = (string)$form->render();
+
+		$tag = $this->getTag($renderedForm, 'input', ['name' => 'testField']);
+		$this->assertTrue($tag, 'Text Field tag not found in rendered form.');
+
+		$value = $this->getAttr($tag, 'value');
+		$this->assertEqual($value, $testValue, 'Text field value not found in rendered HTML.');
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'text'
+				, '_title' => 'Test Field'
+				, '_required' => 'Test field is required.'
+			]
+		]);
+
+		$renderedForm = (string)$form->render();
+		$tag = $this->getTag($renderedForm, 'span', ['class' => 'required']);
+		$this->assertTrue($tag, 'Required annotation not found on text field.');		
+	}
+
+	/**
 	 * Tests a password field.
 	 */
 	public function testPasswordFieldHtml()
@@ -471,6 +509,18 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$value = $this->getAttr($tag, 'value');
 		$this->assertEqual($value, '', 'Password fields should never render values in HTML.');
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'password'
+				, '_title' => 'Test Field'
+				, '_required' => 'Test field is required.'
+			]
+		]);
+
+		$renderedForm = (string)$form->render();
+		$tag = $this->getTag($renderedForm, 'span', ['class' => 'required']);
+		$this->assertTrue($tag, 'Required annotation not found on password field.');
 	}
 
 	/**
@@ -504,6 +554,24 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$value = $this->getAttr($tag, 'selected');
 		$this->assertEqual($value, 'selected', 'Option is not selected in HTML.');
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'select'
+				, '_title' => 'Test Field'
+				, '_options' => [
+					'a'
+					, 'b'
+					, 'c'
+					, 'd'
+				]
+				, '_required' => 'Test field is required.'
+			]
+		]);
+
+		$renderedForm = (string)$form->render();
+		$tag = $this->getTag($renderedForm, 'span', ['class' => 'required']);
+		$this->assertTrue($tag, 'Required annotation not found on select field.');
 	}
 
 	/**
@@ -534,6 +602,24 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$value = $this->getAttr($tag, 'checked');
 		$this->assertEqual($value, 'checked', 'Option is not selected in HTML.');
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'radio'
+				, '_title' => 'Test Field'
+				, '_options' => [
+					'a'
+					, 'b'
+					, 'c'
+					, 'd'
+				]
+				, '_required' => 'Test field is required.'
+			]
+		]);
+
+		$renderedForm = (string)$form->render();
+		$tag = $this->getTag($renderedForm, 'span', ['class' => 'required']);
+		$this->assertTrue($tag, 'Required annotation not found on radio field.');
 	}
 
 	/**
@@ -564,6 +650,18 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		
 		$value = $this->getAttr($tag, 'checked');
 		$this->assertTrue($value, 'Checkbox not checked.');
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'checkbox'
+				, '_title' => 'Test Field'
+				, '_required' => 'Test field is required.'
+			]
+		]);
+
+		$renderedForm = (string)$form->render();
+		$tag = $this->getTag($renderedForm, 'span', ['class' => 'required']);
+		$this->assertTrue($tag, 'Required annotation not found on checkbox field.');
 	}
 
 	/**
@@ -620,5 +718,296 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		]);
 
 		$form->validate([]);
+
+		$this->assertTrue(
+			in_array($testErrorMessage, $form->errors())
+			, 'Required error not found.'
+		);
+
+		$form->validate(['testField' => 'Test Value']);
+
+		$this->assertFalse(
+			in_array($testErrorMessage, $form->errors())
+			, 'Required error found with value present.'
+		);
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'submit'
+				, '_title' => 'Test Field'
+				, '_required' => $testErrorMessage
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(
+			in_array($testErrorMessage, $form->errors())
+			, 'Required error not found. Shorthand syntax.'
+		);
+
+		$form->validate(['testField' => 'Test Value']);
+
+		$this->assertFalse(
+			in_array($testErrorMessage, $form->errors())
+			, 'Required error found with value present. Shorthand syntax.'
+		);
+	}
+
+	/**
+	 * Tests the Range validator.
+	 */
+	public function testRangeValidator()
+	{
+		$testMinMessage = "Test field must be at least 5.";
+		$testMaxMessage = "Test field must be at most 10.";
+		$testNanMessage = "Test field must be a number.";
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'submit'
+				, '_title' => 'Test Field'
+				, '_validators' => [
+					'SeanMorris\Form\Validator\Range' => [
+						10  => $testMaxMessage
+						, 5 => $testMinMessage
+						, 'nan' => $testNanMessage
+					]
+				]
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+
+		$form->validate(['testField' => 2]);
+		
+		$this->assertTrue(
+			in_array($testMinMessage, $form->errors())
+			, 'Minumum value error not found.'
+		);
+
+		$form->validate(['testField' => 12]);
+		
+		$this->assertTrue(
+			in_array($testMaxMessage, $form->errors())
+			, 'Maxiumum value error not found.'
+		);
+
+		$form->validate(['testField' => 'STRING DATA']);
+		
+		$this->assertTrue(
+			in_array($testNanMessage, $form->errors())
+			, 'Nan value error not found.'
+		);
+
+		$form->validate(['testField' => 7]);
+		
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'submit'
+				, '_title' => 'Test Field'
+				, '_range' => [
+					10  => $testMaxMessage
+					, 5 => $testMinMessage
+					, 'nan' => $testNanMessage
+				]
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+
+		$form->validate(['testField' => 2]);
+		
+		$this->assertTrue(
+			in_array($testMinMessage, $form->errors())
+			, 'Minumum value error not found. Shorthand syntax.'
+		);
+
+		$form->validate(['testField' => 12]);
+		
+		$this->assertTrue(
+			in_array($testMaxMessage, $form->errors())
+			, 'Maxiumum value error not found. Shorthand syntax.'
+		);
+
+		$form->validate(['testField' => 'STRING DATA']);
+		
+		$this->assertTrue(
+			in_array($testNanMessage, $form->errors())
+			, 'Nan value error not found. Shorthand syntax.'
+		);
+
+		$form->validate(['testField' => 7]);
+		
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+	}
+
+	/**
+	 * Tests the Regex validator.
+	 */
+	public function testRegexValidator()
+	{
+		$testErrorMessage1 = "Test field must start with a letter.";
+		$testErrorMessage2 = "Test field must be 2 words.";
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'submit'
+				, '_title' => 'Test Field'
+				, '_validators' => [
+					'SeanMorris\Form\Validator\Regex' => [
+						'/^[A-Za-z]/' => $testErrorMessage1
+						, '/^\w+\s\w+?$/' => $testErrorMessage2
+					]
+				]
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+
+		$form->validate(['testField' => 'Test Value']);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+
+		$form->validate(['testField' => '123Test Value']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage1, $form->errors())
+			, 'Pattern not letter-first matching regex should throw letter-first error.'
+		);
+
+		$form->validate(['testField' => 'TestValue']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage2, $form->errors())
+			, 'Pattern not matching two-word regex should throw two-word error.'
+		);
+
+		$form->validate(['testField' => '123TestValue']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage1, $form->errors())
+			, 'Pattern not letter-first matching regex should throw letter-first error.'
+		);
+
+		$this->assertTrue(
+			in_array($testErrorMessage2, $form->errors())
+			, 'Pattern not matching two-word regex should throw two-word error.'
+		);
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'submit'
+				, '_title' => 'Test Field'
+				, '_regex' => [
+					'/^[A-Za-z]/' => $testErrorMessage1
+					, '/^\w+\s\w+?$/' => $testErrorMessage2
+				]
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+
+		$form->validate(['testField' => 'Test Value']);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+
+		$form->validate(['testField' => '123Test Value']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage1, $form->errors())
+			, 'Pattern not letter-first matching regex should throw letter-first error. Shorthand syntax.'
+		);
+
+		$form->validate(['testField' => 'TestValue']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage2, $form->errors())
+			, 'Pattern not matching two-word regex should throw two-word error. Shorthand syntax.'
+		);
+
+		$form->validate(['testField' => '123TestValue']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage1, $form->errors())
+			, 'Pattern not letter-first matching regex should throw letter-first error. Shorthand syntax.'
+		);
+
+		$this->assertTrue(
+			in_array($testErrorMessage2, $form->errors())
+			, 'Pattern not matching two-word regex should throw two-word error. Shorthand syntax.'
+		);
+	}
+
+	/**
+	 * Tests the Required validator.
+	 */
+	public function testEmailValidator()
+	{
+		$testErrorMessage = "Test field must be a valid email.";
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'submit'
+				, '_title' => 'Test Field'
+				, '_validators' => [
+					'SeanMorris\Form\Validator\Email' => $testErrorMessage
+				]
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+
+		$form->validate(['testField' => 'Test Value']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage, $form->errors())
+			, 'Invalid email error not found.'
+		);
+
+		$form->validate(['testField' => 'person@example.com']);
+
+		$this->assertFalse(
+			in_array($testErrorMessage, $form->errors())
+			, 'Invalid email error found with valid email present.'
+		);
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'submit'
+				, '_title' => 'Test Field'
+				, '_email' => $testErrorMessage
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+
+		$form->validate(['testField' => 'Test Value']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage, $form->errors())
+			, 'Invalid email error not found. Shorthand syntax.'
+		);
+
+		$form->validate(['testField' => 'person@example.com']);
+
+		$this->assertFalse(
+			in_array($testErrorMessage, $form->errors())
+			, 'Invalid email error found with valid email present. Shorthand syntax.'
+		);
 	}
 }

@@ -11,6 +11,7 @@ abstract class Validator
 
 	public function validate($field, $form)
 	{
+		$this->errors = [];
 		return true;
 	}
 }
