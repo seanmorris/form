@@ -158,7 +158,7 @@ $skeleton['image'] = [
 ];
 ```
 
-File fields will be populated with `stdObject` type values when submitted. The object will have the following format:
+File fields will be populated with `stdClass` type values when submitted. The object will have the following format:
 
 ```
 stdClass Object (
