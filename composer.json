@@ -6,6 +6,8 @@
             "email": "sean@sean-morris.com"
         }
     ],
+    "license": "Apache-2.0",
+    "php": ">=5.4",
     "require-dev": {
         "simpletest/simpletest": "^1.1"
     },
