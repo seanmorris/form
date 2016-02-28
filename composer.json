@@ -1,5 +1,6 @@
 {
     "name": "seanmorris/form",
+    "description": "Simple, Object oriented forms for PHP."
     "authors": [
         {
             "name": "Sean Morris",
