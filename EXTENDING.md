@@ -224,11 +224,11 @@ Creating custom templates and themes is simple. You can theme the existing form 
 
 In this example, the `ExtendedForm` View provides an overridden preprocessor as well as a new template. Both of these are optional when extending the `Form` View, but normally you'll want to implement one or the other. Leaving both out would give you a subclassed View that is essentially identical to its parent view.
 
-The original template is made available through the call to `parent::render($vars, 1);`. The first parameter contains the `$vars` from the preprocessor. The second parameter is ESSENTIAL in telling the render function to ascend through the View class hierarchy. Passing a 1 acsends to the parent View, passing 2 would ascend to the grandparent and so on.
+The original template is made available through the call to `static::render($vars, 1);`. The first parameter contains the `$vars` from the preprocessor. The second parameter is ESSENTIAL in telling the render function to ascend through the View class hierarchy. Passing a 1 acsends to the parent View, passing 2 would ascend to the grandparent and so on.
 
 ```php
 namespace SeanMorris\Form\Test\Extension\Theme;
-class ExtendedForm extends \SeanMorris\Form\Theme\Form\Form
+class ExtendedForm extends \SeanMorris\Form\Theme\Form
 {
     public function preprocess(&$vars)
     {
@@ -255,7 +255,7 @@ Please note that that this preproccesing logic is for testing/example purposes o
 
 ```php
 namespace SeanMorris\Form\Test\Extension\Theme;
-class AvatarField extends \SeanMorris\Form\Theme\Form\FileField
+class AvatarField extends \SeanMorris\Form\Theme\FileField
 {   
     public function preprocess(&$vars)
     {
@@ -270,7 +270,7 @@ class AvatarField extends \SeanMorris\Form\Theme\Form\FileField
     }
 }
 __halt_compiler(); ?>
-<?php print parent::render($vars, 1); ?>
+<?php print static::render($vars, 1); ?>
 <?php if($src):?>
 <img src = "<?=$src;?>" />
 <?php endif; ?>
@@ -284,7 +284,7 @@ To do so, extend the `Form` package `Theme` class, and populate the static `$vie
 
 ```php
 namespace SeanMorris\Form\Test\Extension\Theme;
-class ExtendedFormTheme extends \SeanMorris\Form\Theme\Form\Theme
+class ExtendedFormTheme extends \SeanMorris\Form\Theme\Theme
 {
     protected static $view = [
         'SeanMorris\Form\Test\Extension\ProfileForm'

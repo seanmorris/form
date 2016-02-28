@@ -284,7 +284,7 @@ class Form
 
 		if(!$theme)
 		{
-			$theme = 'SeanMorris\Form\Theme\Form\Theme';
+			$theme = 'SeanMorris\Form\Theme\Theme';
 		}
 
 		$fields = [];

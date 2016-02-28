@@ -1,6 +1,6 @@
 <?php
 namespace SeanMorris\Form\Test\Extension\Theme;
-class AvatarField extends \SeanMorris\Form\Theme\Form\FileField
+class AvatarField extends \SeanMorris\Form\Theme\FileField
 {	
 	public function preprocess(&$vars)
 	{

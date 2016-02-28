@@ -1,6 +1,6 @@
 <?php
 namespace SeanMorris\Form\Test\Extension\Theme;
-class ExtendedForm extends \SeanMorris\Form\Theme\Form\Form
+class ExtendedForm extends \SeanMorris\Form\Theme\Form
 {
 	public function preprocess(&$vars)
 	{

@@ -70,7 +70,7 @@ $skeleton['_action'] = '/submit/to/path';
 
 ### _theme
 
-Set a theme to render the form and its fields. If its not supplied, `SeanMorris\Form\Theme\Form\Theme` will be used.
+Set a theme to render the form and its fields. If its not supplied, `SeanMorris\Form\Theme\Theme` will be used.
 
 A theme class name can also be passed as the first param to the `render()` method, which will override the value provided in the skeleton.
 
