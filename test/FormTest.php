@@ -848,15 +848,15 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate([]);
 
-		$this->assertTrue(
-			empty($form->errors())
+		$this->assertFalse(
+			$form->errors()
 			, 'Error thrown for no reson.'
 		);
 
 		$form->validate(['testField' => 'red']);
 
-		$this->assertTrue(
-			empty($form->errors())
+		$this->assertFalse(
+			$form->errors()
 			, 'Error thrown for no reson.'
 		);
 
@@ -882,15 +882,15 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate([]);
 
-		$this->assertTrue(
-			empty($form->errors())
+		$this->assertFalse(
+			$form->errors()
 			, 'Error thrown for no reson. Shorthand syntax.'
 		);
 
 		$form->validate(['testField' => 'red']);
 
-		$this->assertTrue(
-			empty($form->errors())
+		$this->assertFalse(
+			$form->errors()
 			, 'Error thrown for no reson. Shorthand syntax.'
 		);
 
@@ -929,7 +929,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate([]);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason.'
+		);
 
 		$form->validate(['testField' => 2]);
 		
@@ -954,7 +957,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate(['testField' => 7]);
 		
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason.'
+		);
 
 		$form = new \SeanMorris\Form\Form([
 			'testField' => [
@@ -970,7 +976,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate([]);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason. Shorthand syntax.'
+		);
 
 		$form->validate(['testField' => 2]);
 		
@@ -995,7 +1004,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate(['testField' => 7]);
 		
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason. Shorthand syntax.'
+		);
 	}
 
 	/**
@@ -1022,11 +1034,17 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate([]);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason.'
+		);
 
 		$form->validate(['testField' => 'Test Value']);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason.'
+		);
 
 		$form->validate(['testField' => '123Test Value']);
 
@@ -1067,11 +1085,17 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate([]);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason. Shorthand syntax.'
+		);
 
 		$form->validate(['testField' => 'Test Value']);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason. Shorthand syntax.'
+		);
 
 		$form->validate(['testField' => '123Test Value']);
 
@@ -1119,7 +1143,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate([]);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason.'
+		);
 
 		$form->validate(['testField' => 'Test Value']);
 
@@ -1145,7 +1172,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate([]);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason. Shorthand syntax.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason. Shorthand syntax.'
+		);
 
 		$form->validate(['testField' => 'Test Value']);
 
@@ -1186,7 +1216,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		]);
 
 		$form->validate([]);
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason.'
+		);
 
 		$form->validate([
 			'testField' => 'x'
@@ -1203,7 +1236,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 			, 'confirmTestField' => 'x'
 		]);
 		
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason.'
+		);
 
 		$form = new \SeanMorris\Form\Form([
 			'testField' => [
@@ -1221,7 +1257,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$form->validate([]);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason.'
+		);
 
 		$form->validate([
 			'testField' => 'x'
@@ -1238,7 +1277,10 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 			, 'confirmTestField' => 'x'
 		]);
 
-		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+		$this->assertFalse(
+			$form->errors()
+			, 'Error thrown for no reason.'
+		);
 	}
 
 	/**
