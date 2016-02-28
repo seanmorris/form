@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "seanmorris/theme",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seanmorris/theme.git",
-                "reference": "f6fc74e96fe1249af1fb57e80248d674a7f4be64"
+                "reference": "9cbcdb5ffae6439dbc3b15edaec2f73f4f9faead"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seanmorris/theme/zipball/f6fc74e96fe1249af1fb57e80248d674a7f4be64",
-                "reference": "f6fc74e96fe1249af1fb57e80248d674a7f4be64",
+                "url": "https://api.github.com/repos/seanmorris/theme/zipball/9cbcdb5ffae6439dbc3b15edaec2f73f4f9faead",
+                "reference": "9cbcdb5ffae6439dbc3b15edaec2f73f4f9faead",
                 "shasum": ""
             },
             "require-dev": {
@@ -42,7 +42,7 @@
                 }
             ],
             "description": "Simple, sane templating and theming for PHP",
-            "time": "2016-02-28 21:20:29"
+            "time": "2016-02-28 21:23:29"
         }
     ],
     "packages-dev": [
