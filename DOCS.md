@@ -151,13 +151,23 @@ $skeleton['fieldset'] = [
 
 ### File
 
-Data can be retrieved from the file field by setting the form values like so: `$form->setValues($_FILES + $_POST);`
-
 ```php
 $skeleton['image'] = [
     '_title' => 'Image'
     , 'type' => 'file'
 ];
+```
+
+File fields will be populated with `stdObject` type values when submitted. The object will have the following format:
+
+```
+stdClass Object (
+    [name] => elemental.jpg
+    [type] => image/jpeg
+    [tmp_name] => /tmp/php5QegRw
+    [error] => 0
+    [size] => 76521
+)
 ```
 
 ### Hidden 
