@@ -1,9 +1,10 @@
 <?php
 namespace SeanMorris\Form\Theme\Form;
+/**
+ * Template for Radiobutton Fields.
+ */
 class RadiobuttonField extends OptionField
-{
-
-}
+{}
 __halt_compiler();
 ?>
 <label><?=$title;?> <span class = "required"><?=$indicator;?></span>

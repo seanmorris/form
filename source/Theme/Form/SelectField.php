@@ -1,5 +1,8 @@
 <?php
 namespace SeanMorris\Form\Theme\Form;
+/**
+ * Template for Select Fields.
+ */
 class SelectField extends OptionField
 {
 	public function preprocess(&$vars)
@@ -41,7 +44,7 @@ class SelectField extends OptionField
 }
 __halt_compiler();
 ?>
-<label for = "<?=$fullname;?>"><?=$title;?> <span class = "required"><?=$indicator;?></span>
+<label for = "<?=$fullname;?>"><?=$title;?> <?php if(isset($indicator)): ?><span class = "required"><?=$indicator;?></span><?php endif; ?>
 <select <?=$select_attrs;?>>
 <?php foreach($options as $label => $optionValue): ?>
 		<option value = "<?=$optionValue; ?>" <?php 

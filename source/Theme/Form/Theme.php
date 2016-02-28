@@ -1,7 +1,13 @@
 <?php
 namespace SeanMorris\Form\Theme\Form;
+/**
+ * Default theme for Forms.
+ */
 class Theme extends \SeanMorris\Theme\Theme
 {
+	/**
+	 * Map of form classes to view classes.
+	 */
 	protected static
 		$view = [
 			'SeanMorris\Form\Form' => 'SeanMorris\Form\Theme\Form\Form'

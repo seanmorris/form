@@ -1,5 +1,8 @@
 <?php
 namespace SeanMorris\Form;
+/**
+ * Logic for Select fields.
+ */
 class SelectField extends Field
 {
 	protected $multi = FALSE;

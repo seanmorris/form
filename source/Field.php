@@ -1,35 +1,121 @@
 <?php
 namespace SeanMorris\Form;
+/**
+ * Logic for Fields.
+ */
 class Field
 {
-	protected
-		$name
-		, $title
-		, $form
-		, $value
-		, $superior
-		, $type
-		, $multi
-		, $array
-		, $locked
-		, $fieldDef
-		, $disabled
-		, $options
-		, $suppress = FALSE
-		, $validators = []
-		, $errors = []
-	;
+	/**
+	 * Name of the field.
+	 * @var string
+	 */
+	protected $name;
 
+	/**
+	 * Title of the field.
+	 * @var string
+	 */
+	protected $title;
+
+	/**
+	 * Form object that contains the field.
+	 * @var object
+	 */
+	protected $form;
+
+	/**
+	 * Value of the field.
+	 * @var string
+	 */
+	protected $value;
+
+	/**
+	 * Fieldset of the field.
+	 * @var object
+	 */
+	protected $superior;
+
+	/**
+	 * Type of the field.
+	 * @var string
+	 */
+	protected $type;
+	
+	/**
+	 * Field is multivalued if true.
+	 * @var bool
+	 */
+	protected $multi;
+
+	/**
+	 * Field can hold an array if true.
+	 * @var bool
+	 */
+	protected $array;
+
+	/**
+	 * Locked fields will not change value.
+	 * @var bool
+	 */
+	protected $locked;
+
+	/**
+	 * FieldDef array that generates this field.
+	 * @var array
+	 */
+	protected $fieldDef;
+
+	/**
+	 * If true, disables the field in the HTML.
+	 * @var bool
+	 */
+	protected $disabled;
+
+	/**
+	 * Array of options for Radio buttons or Select fields.
+	 * @var array
+	 */
+	protected $options;
+
+	/**
+	 * If true, the value can be submitted but not rendered.
+	 * @var bool
+	 */
+	protected $suppress = FALSE;
+
+	/**
+	 * List of validator objects.
+	 * @var array
+	 */
+	protected $validators = [];
+
+	/**
+	 * List of validation errors.
+	 * @var array
+	 */
+	protected $errors = [];
+
+	/**
+	 * List of validation errors.
+	 * @var array
+	 */
 	protected static
 		$validatorShorthand = [
 			'_required' => 'SeanMorris\Form\Validator\Required'
 			, '_email' => 'SeanMorris\Form\Validator\Email'
 			, '_range' => 'SeanMorris\Form\Validator\Range'
-			, '_regex' => 'SeanMorris\Form\Validator\regex'
-			, '_confirm' => 'SeanMorris\Form\Validator\confirm'
+			, '_regex' => 'SeanMorris\Form\Validator\Regex'
+			, '_confirm' => 'SeanMorris\Form\Validator\Confirm'
+			, '_optionFilter' => 'SeanMorris\Form\Validator\OptionFilter'
 		]
 	;
 
+	/**
+	 * Sets up the field based on the $fieldDef
+	 * 
+	 * @param array $fieldDef Array describing field details.
+	 * @param object $form Form that owns this field.
+	 */
 	public function __construct($fieldDef, $form)
 	{
 		if(isset($fieldDef['name']))
@@ -108,6 +194,12 @@ class Field
 		$this->form = $form;
 	}
 
+	/**
+	 * Sets the field value
+	 * 
+	 * @param mixed $value field value.
+	 * @param bool $override if true, the call will change the value of a locked field.
+	 */
 	public function set($value, $override = false)
 	{
 		$this->errors = [];
@@ -120,11 +212,19 @@ class Field
 		$this->value = $value;
 	}
 
-	public function value(Form $form)
+	/**
+	 * Gets the field value
+	 * 
+	 * @return mixed $value field value.
+	 */
+	public function value()
 	{
 		return $this->value;
 	}
 
+	/**
+	 * Loop over validators, run them and agregate errors.
+	 */
 	public function validate()
 	{
 		$this->errors = [];
@@ -145,16 +245,31 @@ class Field
 		return !$this->errors;
 	}
 
+	/**
+	 * Return whether or not field is suppressed.
+	 * 
+	 * @return bool true if suppresdes.
+	 */
 	public function suppress()
 	{
 		return $this->suppress;
 	}
 
+	/**
+	 * Return a list of validation errors.
+	 * 
+	 * @return array List of valiation errors.
+	 */
 	public function errors()
 	{
 		return $this->errors;
 	}
 
+	/**
+	 * Return a field attribute.
+	 * 
+	 * @return string attribute value.
+	 */
 	public function attr($name)
 	{
 		if($name == 'name')
@@ -168,6 +283,11 @@ class Field
 		}
 	}
 
+	/**
+	 * Return a list of field attributes.
+	 * 
+	 * @return array of attributeName => value pairs.
+	 */
 	public function attrs()
 	{
 		$attrs = [];
@@ -195,6 +315,11 @@ class Field
 		return $attrs;
 	}
 
+	/**
+	 * Render the field.
+	 * 
+	 * @return object|string View or HTML for field.
+	 */
 	public function render($theme)
 	{
 		$rendered = $theme::render($this, [
@@ -214,26 +339,49 @@ class Field
 		return $rendered;
 	}
 
+	/**
+	 * Returns the field title.
+	 * 
+	 * @return bool true if suppresdes.
+	 */
 	public function title()
 	{
 		return $this->title;
 	}
 
+	/**
+	 * Returns the field's fieldset if applicable.
+	 * 
+	 * @return object the fieldset.
+	 */
 	public function superior()
 	{
 		return $this->superior;
 	}
 
+	/**
+	 * Returns the field's fieldset if applicable.
+	 * 
+	 * @return bool true if suppresdes.
+	 */
 	public function isArray()
 	{
 		return false;
 	}
 
+	/**
+	 * Locks the field.
+	 */
 	public function lock()
 	{
 		$this->locked = true;
 	}
 
+	/**
+	 * Returns the field's full name.
+	 * 
+	 * @return string the full name.
+	 */
 	protected function fullname()
 	{
 		$fullname = $this->name;
@@ -250,5 +398,10 @@ class Field
 		}
 
 		return $fullname;
+	}
+
+	public function fieldDef()
+	{
+		return $this->fieldDef;
 	}
 }

@@ -1,16 +1,48 @@
 <?php
 namespace SeanMorris\Form;
+/**
+ * Logic for Forms.
+ */
 class Form
 {
-	protected 
-		$method
-		, $action
-		, $enctype
-		, $theme
-		, $fields = []
-		, $errors = []
-	;
+	/**
+	 * HTTP method to submit with.
+	 */
+	protected $method;
 
+	/**
+	 * URL to submit to.
+	 */
+	protected $action;
+
+	/**
+	 * Encoding type. Used for file uploads.
+	 */
+	protected $enctype;
+
+	/**
+	 * Theme to render the form with.
+	 */
+	protected $theme;
+
+	/**
+	 * List of child fields.
+	 */
+	protected $fields = [];
+
+	/**
+	 * Aggregated valdiation errors.
+	 */
+	protected $errors = [];
+
+	/**
+	 * Skeleton used to create form.
+	 */
+	protected $skeleton = [];
+
+	/**
+	 * Shorthand mappting of field types to classes.
+	 */
 	protected static
 		$typesToClasses = [
 			null => 'SeanMorris\Form\Field'
@@ -29,8 +61,14 @@ class Form
 		]
 	;
 	
+	/**
+	 * Sets up the form.
+	 * 
+	 * @param array $skeleton Information to set up form fields.
+	 */
 	public function __construct($skeleton)
 	{
+		$this->skeleton = $skeleton;
 		$this->method = 'GET';
 
 		if(isset($skeleton['_method']))
@@ -53,7 +91,12 @@ class Form
 		$this->fields = static::processFieldDefs($skeleton);
 	}
 
-	public function processFieldDefs($skeleton, $array = false)
+	/**
+	 * Process a list of fieldDefs into a list of field objects.
+	 * 
+	 * @param $skeleton list of fieldDefs.
+	 */
+	public function processFieldDefs($skeleton)
 	{
 		$fields = [];
 
@@ -96,11 +139,6 @@ class Form
 				$fieldClass = 'SeanMorris\Form\Field';
 			}
 
-			if($array)
-			{
-				$fieldName .= '[]';
-			}
-
 			$fieldDef['name'] = $fieldName;
 
 			$field = new $fieldClass($fieldDef, $this);
@@ -116,24 +154,19 @@ class Form
 		return $fields;
 	}
 
-	public function getValues(Fieldset $fieldset = null)
+	/**
+	 * Returns a list of values from this forms fields.
+	 * 
+	 * @return array List of values.
+	 */
+	public function getValues()
 	{
 		$fields = $this->fields;
 		$values = [];
 
-		if($fieldset)
-		{
-			$fields = $fieldset->fields();
-		}
-
 		foreach($fields as $fieldName => $field)
 		{
-			$fieldValue = $field->value($this);
-
-			if($fieldset && $fieldset->isMulti() && $fieldName == -1)
-			{
-				continue;
-			}
+			$fieldValue = $field->value();
 
 			if($field->isArray() && is_array($fieldValue))
 			{
@@ -152,6 +185,12 @@ class Form
 		return $values;
 	}
 
+	/**
+	 * Sets values forthis forms fields.
+	 * 
+	 * @param array $values List of values.
+	 * @param array $override Override locked fields.
+	 */
 	public function setValues(array $values = NULL, $override = false)
 	{
 		$this->errors = [];
@@ -197,6 +236,13 @@ class Form
 		return $values;
 	}
 
+	/**
+	 * Validates and sets values for this forms fields.
+	 * 
+	 * @param array $values List of values.
+	 * 
+	 * @return boolean TRUE if no errors were generated.
+	 */
 	public function validate(array $values = null)
 	{
 		$this->setValues($values, true);
@@ -212,11 +258,23 @@ class Form
 		return !$this->errors;
 	}
 
+	/**
+	 * Returns a list of errors from validation.
+	 * 
+	 * @return array list of any validation errors generated.
+	 */
 	public function errors()
 	{
 		return $this->errors;
 	}
 
+	/**
+	 * Renders the form.
+	 * 
+	 * @param string $theme Classname of theme to use in rendering the form.
+	 * 
+	 * @return object View object for form.
+	 */
 	public function render($theme = NULL)
 	{
 		if(!$theme && $this->theme)
@@ -242,15 +300,21 @@ class Form
 		}
 
 		$rendered = $theme::render($this, [
-			'fields' => $fields
-			, 'method' => $this->method
-			, 'action' => $this->action
-			, 'enctype' => $this->enctype
+			'fields'     => $fields
+			, 'method'   => $this->method
+			, 'action'   => $this->action
+			, 'enctype'  => $this->enctype
+			, 'skeleton' => $this->skeleton
 		]);
 
 		return $rendered;
 	}
 
+	/**
+	 * Return this form's list of field objects.
+	 * 
+	 * @return array List of field objects.
+	 */
 	public function fields()
 	{
 		return $this->fields;

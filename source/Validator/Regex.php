@@ -1,5 +1,8 @@
 <?php
 namespace SeanMorris\Form\Validator;
+/**
+ * Validates that field value matches one or more regex.
+ */
 class Regex extends Validator
 {
 	protected $rules;
@@ -13,7 +16,7 @@ class Regex extends Validator
 	{
 		parent::validate($form, $field);
 		
-		$value = $field->value($form);
+		$value = $field->value();
 
 		foreach($this->rules as $rule => $error)
 		{

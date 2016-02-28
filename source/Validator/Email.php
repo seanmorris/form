@@ -1,5 +1,8 @@
 <?php
 namespace SeanMorris\Form\Validator;
+/**
+ * Validates that field value is an email address.
+ */
 class Email extends Validator
 {
 	protected $rules;
@@ -13,7 +16,7 @@ class Email extends Validator
 	{
 		parent::validate($form, $field);
 		
-		$value = $field->value($form);
+		$value = $field->value();
 
 		if(isset($value) && !filter_var($value, FILTER_VALIDATE_EMAIL))
 		{

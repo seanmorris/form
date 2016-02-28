@@ -1,19 +1,26 @@
 <?php
 namespace SeanMorris\Form;
+/**
+ * Logic for Fieldsets.
+ */
 class Fieldset extends Field
 {
-	protected
-		$title
-		, $array
-		, $multi
-		, $delta
-		, $values = []
-		, $disabled
-		, $cardinality
-		, $fieldDef
-		, $children = []
-	;
+	//protected $delta;
+	/**
+	 * List of values passed to child fields.
+	 */
+	protected $values = [];
+	/**
+	 * List of child fields.
+	 */
+	protected $children = [];
 
+	/**
+	 * Sets up the fieldset based on the $fieldDef
+	 * 
+	 * @param array $fieldDef Array describing fieldset details.
+	 * @param object $form Form that owns this fieldset.
+	 */
 	public function __construct($fieldDef, $form)
 	{
 		if(isset($fieldDef['_array']))
@@ -27,11 +34,6 @@ class Fieldset extends Field
 			$fieldDef['_children'] = [$fieldDef['_children']];
 		}
 
-		if(isset($fieldDef['_cardinality']))
-		{
-			$this->cardinality = $fieldDef['_cardinality'];
-		}
-
 		parent::__construct($fieldDef, $form);
 
 		if(isset($fieldDef['_children']))
@@ -40,6 +42,11 @@ class Fieldset extends Field
 		}
 	}
 
+	/**
+	 * Adds a child to the fieldset.
+	 * 
+	 * @param array $fieldDef fieldDef of field being added.
+	 */
 	public function addChildren($fieldDefs)
 	{
 		$add = $this->form->processFieldDefs($fieldDefs);
@@ -55,11 +62,21 @@ class Fieldset extends Field
 		}
 	}
 
+	/**
+	 * Returns a list of the fieldset's children.
+	 * 
+	 * @return array child fields.
+	 */
 	public function fields()
 	{
 		return $this->children;
 	}
 
+	/**
+	 * Sets the fieldset's children.
+	 * 
+	 * @param array list of values.
+	 */
 	public function set($values, $override = false)
 	{
 		if(!is_array($values))
@@ -129,20 +146,49 @@ class Fieldset extends Field
 		}
 	}
 
-	public function value(Form $form)
+	/**
+	 * Gets the fieldset's children.
+	 * 
+	 * @return array list of values.
+	 */
+	public function value()
 	{
-		return $form->getValues($this);
-	}
+		$fields = $this->fields();
+		$values = [];
 
-	public function render($theme)
-	{
-		$cardinality = $this->cardinality ? $this->cardinality : 1;
-
-		if($this->multi && $cardinality < count($this->values))
+		foreach($fields as $fieldName => $field)
 		{
-			$cardinality = count($this->values);
+			$fieldValue = $field->value();
+
+			if($this->isMulti() && $fieldName == -1)
+			{
+				continue;
+			}
+
+			if($field->isArray() && is_array($fieldValue))
+			{
+				$values[$fieldName] = $fieldValue;
+			}
+			else if(is_array($fieldValue))
+			{
+				$values = array_merge($values, $fieldValue);
+			}
+			else
+			{
+				$values[$fieldName] = $fieldValue;
+			}
 		}
 
+		return $values;
+	}
+
+	/**
+	 * Renders the fieldet to a view.
+	 * 
+	 * @return object View object for fieldset.
+	 */
+	public function render($theme)
+	{
 		$fields = [];
 
 		$delta = -1;
@@ -152,54 +198,6 @@ class Fieldset extends Field
 			$fields[] = $field->render($theme);
 		}
 
-		/*do{
-			foreach($this->children as $name => $field)
-			{
-
-				$field->disabled = false;
-
-				if($delta < 0 && $this->multi)
-				{
-					$field->disabled = true;
-					continue;
-				}
-				else if(!$this->multi)
-				{
-					$delta++;
-				}
-
-				$field->setDelta($delta);
-
-				if(isset($this->values[$name]))
-				{
-					var_dump([$name, $delta], 'MMMMMMMMMMMMMM');
-
-					$field->set($this->values[$name]);
-				}
-				else if($this->multi && isset($this->values[$delta]))
-				{
-					//$field->set($this->values[$delta]);	
-				}
-
-				$fields[] = $field->render($theme);
-
-				if(!isset($this->values[$name]))
-				{
-					if($field instanceof Fieldset)
-					{
-						$field->set([]);	
-					}
-					else
-					{
-						$field->set('');
-					}
-				}
-			}
-
-			$delta++;
-		} while($delta < $cardinality && $this->multi);
-		*/
-
 		$rendered = $theme::render($this, [
 			'fields' => $fields
 			, 'title' => $this->title
@@ -207,7 +205,6 @@ class Fieldset extends Field
 			, 'fullname' => $this->fullname()
 			, 'array' => $this->array
 			, 'multi' => $this->multi
-			, 'delta' => $this->delta
 			, 'value' => NULL
 			, 'attrs' => $this->attrs()
 			, 'disabled' => $this->disabled
@@ -217,21 +214,39 @@ class Fieldset extends Field
 		return $rendered;
 	}
 
+	/**
+	 * Informs a child field that this fieldset is its direct owner.
+	 * 
+	 * @param object Field to subjugate.
+	 */
 	public function subjugate($field)
 	{
 		$field->superior = $this;
 	}
 
+	/**
+	 * Returns a boolean indicating whether or not this field can hold an array.
+	 * 
+	 * @return boolean true if field holds an array.
+	 */
 	public function isArray()
 	{
 		return $this->array;
 	}
 
+	/**
+	 * Returns a boolean indicating whether or not this field is multivalued.
+	 * 
+	 * @return boolean true if field is multivalued.
+	 */
 	public function isMulti()
 	{
 		return $this->multi;
 	}
 
+	/**
+	 * Clones this fieldset and children.
+	 */
 	public function __clone()
 	{
 		foreach($this->children as $name => &$child)
@@ -239,5 +254,25 @@ class Fieldset extends Field
 			$child = clone $this->children[$name];
 			$child->superior = $this;
 		}
+	}
+
+	/**
+	 * Validates the fields in this fieldset.
+	 * 
+	 * @return True if no errors were generated.
+	 */
+	public function validate()
+	{
+		$this->errors = [];
+		
+		foreach($this->children as $fieldName => $field)
+		{
+			if(!$field->validate())
+			{
+				$this->errors = array_merge($this->errors, $field->errors());
+			}
+		}
+
+		return !$this->errors;
 	}
 }

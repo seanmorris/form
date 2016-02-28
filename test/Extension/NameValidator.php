@@ -1,12 +1,7 @@
 <?php
-namespace SeanMorris\Form\Validator;
-/**
- * Validates that field value is present.
- */
-class Required extends Validator
+namespace SeanMorris\Form\Test\Extension;
+class NameValidator extends \SeanMorris\Form\Validator\Validator
 {
-	protected $errorMessage;
-
 	public function __construct($errorMessage)
 	{
 		$this->errorMessage = $errorMessage;
@@ -15,14 +10,10 @@ class Required extends Validator
 	public function validate($form, $field = NULL)
 	{
 		parent::validate($form, $field);
-
+		
 		$value = $field->value();
 
-		if(is_scalar($value) && !strlen($value))
-		{
-			$this->errors[] = $this->errorMessage;
-		}
-		else if(!is_scalar($value) && !$value)
+		if(isset($value) && strlen($value) && !preg_match('/^[A-Za-z]+$/', $value))
 		{
 			$this->errors[] = $this->errorMessage;
 		}

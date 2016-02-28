@@ -1,5 +1,8 @@
 <?php
 namespace SeanMorris\Form\Validator;
+/**
+ * Validates that field value is numerical and withing a boundary.
+ */
 class Range extends Validator
 {
 	protected $rules, $messages;
@@ -50,7 +53,7 @@ class Range extends Validator
 		$max = key($this->rules);
 		next($this->rules);
 
-		$val = $field->value($form);
+		$val = $field->value();
 
 		if(isset($val) && !is_numeric($val))
 		{

@@ -137,6 +137,7 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		]);
 
 		$testValue = 'abcd';
+
 		$testValues = ['testField' => $testValue];
 
 		$form->setValues($testValues);
@@ -204,6 +205,7 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		];
 
 		$skeleton = $this->fieldsetSkeleton();
+		
 		$flatForm = new \SeanMorris\Form\Form($skeleton);
 
 		$renderedForm = (string)$flatForm->render();
@@ -707,10 +709,13 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 	 */
 	public function testButtonFieldHtml()
 	{
+		$testValue = 'Test Button';
+
 		$form = new \SeanMorris\Form\Form([
 			'testField' => [
 				'type' => 'button'
 				, '_title' => 'Test Field'
+				, 'value' => $testValue
 			]
 		]);
 
@@ -718,6 +723,33 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		
 		$tag = $this->getTag($renderedForm, 'input', ['type' => 'button']);
 		$this->assertTrue($tag, 'Button tag not found in rendered form.');
+
+		$value = $this->getAttr($tag, 'value');
+		$this->assertEqual($value, $testValue, 'Text field value not found in rendered HTML.');
+	}
+
+	/**
+	 * Tests a hidden field.
+	 */
+	public function testHiddenFieldHtml()
+	{
+		$testValue = 'Test Hidden';
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'hidden'
+				, '_title' => 'Test Field'
+				, 'value' => $testValue
+			]
+		]);
+
+		$renderedForm = (string)$form->render();
+		
+		$tag = $this->getTag($renderedForm, 'input', ['type' => 'hidden']);
+		$this->assertTrue($tag, 'Hidden tag not found in rendered form.');
+
+		$value = $this->getAttr($tag, 'value');
+		$this->assertEqual($value, $testValue, 'Hidden field value not found in rendered HTML.');
 	}
 
 	/**
@@ -793,12 +825,92 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 	}
 
 	/**
+	 * Tests the OptionFitler validator.
+	 */
+	public function testOptionFilterValidator()
+	{
+		$testErrorMessage = 'Test field value is invalid.';
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'select'
+				, '_title' => 'Test Field'
+				, '_options' => [
+					'Red' => 'red'
+					, 'Blue' => 'blue'
+					, 'Yellow' => 'yellow'
+				]
+				, '_validators' => [
+					'SeanMorris\Form\Validator\OptionFilter' => $testErrorMessage
+				]
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(
+			empty($form->errors())
+			, 'Error thrown for no reson.'
+		);
+
+		$form->validate(['testField' => 'red']);
+
+		$this->assertTrue(
+			empty($form->errors())
+			, 'Error thrown for no reson.'
+		);
+
+		$form->validate(['testField' => 'green']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage, $form->errors())
+			, 'Invalid value error not found.'
+		);
+
+		$form = new \SeanMorris\Form\Form([
+			'testField' => [
+				'type' => 'radios'
+				, '_title' => 'Test Field'
+				, '_options' => [
+					'Red' => 'red'
+					, 'Blue' => 'blue'
+					, 'Yellow' => 'yellow'
+				]
+				, '_optionFilter' => $testErrorMessage
+			]
+		]);
+
+		$form->validate([]);
+
+		$this->assertTrue(
+			empty($form->errors())
+			, 'Error thrown for no reson. Shorthand syntax.'
+		);
+
+		$form->validate(['testField' => 'red']);
+
+		$this->assertTrue(
+			empty($form->errors())
+			, 'Error thrown for no reson. Shorthand syntax.'
+		);
+
+		$form->validate(['testField' => 'green']);
+
+		$this->assertTrue(
+			in_array($testErrorMessage, $form->errors())
+			, 'Invalid value error not found. Shorthand syntax.'
+		);
+	}
+
+	/**
 	 * Tests the Range validator.
 	 */
 	public function testRangeValidator()
 	{
 		$testMinMessage = "Test field must be at least 5.";
+
 		$testMaxMessage = "Test field must be at most 10.";
+
 		$testNanMessage = "Test field must be a number.";
 
 		$form = new \SeanMorris\Form\Form([
@@ -892,6 +1004,7 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 	public function testRegexValidator()
 	{
 		$testErrorMessage1 = "Test field must start with a letter.";
+
 		$testErrorMessage2 = "Test field must be 2 words.";
 
 		$form = new \SeanMorris\Form\Form([
@@ -1126,5 +1239,98 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		]);
 
 		$this->assertTrue(empty($form->errors()), 'Error thrown for no reason.');
+	}
+
+	/**
+	 * Tests an extended form.
+	 *
+	 * ensures a text input is editable and renders correctly.
+	 */
+	public function testExtendedForm()
+	{
+		$form = new \SeanMorris\Form\Test\Extension\ProfileForm();
+
+		$renderedForm = (string)$form->render();
+
+		$tag = $this->getTag($renderedForm, 'input', ['name' => 'firstName']);
+		$this->assertTrue($tag, 'First name field tag not found in rendered form.');
+
+		$tag = $this->getTag($renderedForm, 'label', ['for' => 'firstName']);
+		$requiedTag = $this->getTag($tag, 'span', ['class' => 'required']);
+		$this->assertTrue($requiedTag, 'Required annotation not found on first name field.');
+
+		$tag = $this->getTag($renderedForm, 'input', ['name' => 'lastName']);
+		$this->assertTrue($tag, 'Last name field tag not found in rendered form.');
+
+		$tag = $this->getTag($renderedForm, 'label', ['for' => 'lastName']);
+		$requiedTag = $this->getTag($tag, 'span', ['class' => 'required']);
+		$this->assertTrue($requiedTag, 'Required annotation not found on first name field.');
+
+		$tag = $this->getTag($renderedForm, 'textarea', ['name' => 'bio']);
+		$this->assertTrue($tag, 'Bio field tag not found in rendered form.');
+
+		$tag = $this->getTag($renderedForm, 'fieldset', ['name' => 'height']);
+		$this->assertTrue($tag, 'Height fieldset tag not found in rendered form.');
+
+		$unitTag = $this->getTag($tag, 'input', ['name' => 'height[units]']);
+		$this->assertTrue($unitTag, 'Height unit field tag not found in rendered form.');
+
+		$measureTag = $this->getTag($tag, 'select', ['name' => 'height[measure]']);
+		$this->assertTrue($measureTag, 'Height measure field tag not found in rendered form.');
+
+		$form->validate([]);
+
+		$testErrors = [
+			'First Name is required'
+			, 'Last Name is required'
+		];
+
+		$this->assertEqual(
+			array_intersect($testErrors, $form->errors())
+			, $testErrors
+			, 'Missing required error for a name field.'
+		);
+
+		$form->validate([
+			'firstName'  => 'Person'
+			, 'lastName' => 'Surname'
+		]);
+
+		$this->assertFalse(
+			array_intersect($testErrors, $form->errors())
+			, 'Error thrown for no reason.'
+		);
+
+		$form->validate([
+			'firstName'  => 'Person'
+			, 'lastName' => 'Surname'
+			, 'height'   => [
+				'units'     => 'string'
+				, 'measure' => 'not in list'
+			]
+		]);
+
+		$testErrors = ['Units must consist of only numbers.'];
+
+		$this->assertEqual(
+			array_intersect($testErrors, $form->errors())
+			, $testErrors
+			, 'Missing invalid value error for units field.'
+		);
+
+		$form->validate([
+			'firstName'  => 'Mini'
+			, 'lastName' => 'Me'
+			, 'bio'      => 'Clone.'
+			, 'height'   => [
+				'units'     => 50
+				, 'measure' => 'cm'
+			]
+		]);
+
+		$this->assertFalse(
+			array_intersect($testErrors, $form->errors())
+			, 'Error thrown for no reason.'
+		);
 	}
 }

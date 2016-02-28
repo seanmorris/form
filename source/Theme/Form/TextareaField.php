@@ -1,5 +1,8 @@
 <?php
 namespace SeanMorris\Form\Theme\Form;
+/**
+ * Template for Textarea Fields.
+ */
 class TextareaField extends Field
 {
 	public function preprocess(&$vars)

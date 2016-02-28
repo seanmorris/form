@@ -6,24 +6,26 @@ The guide to the Form library.
 
 Forms are build from arrays, called skeletons. They provide information about the fields of the form as well as the form itself. Pass the skeleton to the constructor, then call `render()` on the form object to render the form HTML.
 
+"Skeletons" can contain "form arguments" which are string values with keys that begin with an underscore. They can also contain "fieldDefs" which define a field, are array values and have keys that begin with letters.
+
 For example, the following form has a title textbox, a body textarea and a submit button. It will submit via POST.
 
 ```php
 $skeleton['_method'] = 'POST';
 
 $skeleton['title'] = [
-	'_title' => 'Title'
-	, 'type' => 'text'
+    '_title' => 'Title'
+    , 'type' => 'text'
 ];
 
 $skeleton['body'] = [
-	'_title' => 'Body'
-	, 'type' => 'textarea'
+    '_title' => 'Body'
+    , 'type' => 'textarea'
 ];
 
 $skeleton['submit'] = [
-	'_title' => 'Submit'
-	, 'type' => 'submit'
+    '_title' => 'Submit'
+    , 'type' => 'submit'
 ];
 
 $form = new \SeanMorris\Form\Form($skeleton);
@@ -36,10 +38,14 @@ Forms can be populated with both the `setValues()` and `validate()` methods. Pas
 
 Calling `validate()` will also populate the forms errors if there are any validators attached to the fields. `validate()` itself returns booleans, but the `errors()` method can be called to get the list of errors generated.
 
+## Autopopulation
+
+If no value is provided to the `setValues` or `validate` method call, then the form will populate itself from $_GET or $_POST, depending on which method it is set to use (node: this defaults to GET).
+
 ```php
 if(!$form->validate($_POST))
 {
-	$errors = $form->errors();
+    $errors = $form->errors();
 }
 ```
 
@@ -88,8 +94,8 @@ If necesary, see [EXTENDING](EXTENDING.md) if new fieldtypes need to be created.
 
 ```php
 $skeleton['someString'] = [
-	'_title' => 'String'
-	, 'type' => 'text'
+    '_title' => 'String'
+    , 'type' => 'text'
 ];
 ```
 
@@ -99,8 +105,8 @@ Checkbox fields will simply render a checkbox with a value of 1 when checked.
 
 ```php
 $skeleton['image'] = [
-	'_title' => 'Image'
-	, 'type' => 'checkbox'
+    '_title' => 'Image'
+    , 'type' => 'checkbox'
 ];
 ```
 
@@ -110,19 +116,19 @@ Fieldsets contain other fields.
 
 ```php
 $children['childA'] = [
-	'_title' => 'Child Field A'
-	, 'type' => 'text',
+    '_title' => 'Child Field A'
+    , 'type' => 'text',
 ];
 
 $children['childB'] = [
-	'_title' => 'Child Field B'
-	, 'type' => 'text',
+    '_title' => 'Child Field B'
+    , 'type' => 'text',
 ];
 
 $skeleton['fieldset'] = [
-	'_title' => 'Fields'
-	, 'type' => 'fieldset'
-	, '_children' => $children
+    '_title'      => 'Fields'
+    , 'type'      => 'fieldset'
+    , '_children' => $children
 ];
 ```
 #### Fieldsets as input arrays
@@ -131,15 +137,15 @@ Fieldsets can encapsulate their children with the `_array` key. In the following
 
 ```php
 $children['childA'] = [
-	'_title' => 'Child Field A'
-	, 'type' => 'text',
+    '_title' => 'Child Field A'
+    , 'type' => 'text',
 ];
 
 $skeleton['fieldset'] = [
-	'_title' => 'Fields'
-	, 'type' => 'fieldset'
-	, '_children' => $children
-	, '_array' => TRUE
+    '_title'      => 'Fields'
+    , 'type'      => 'fieldset'
+    , '_children' => $children
+    , '_array'    => TRUE
 ];
 ```
 
@@ -149,8 +155,8 @@ Data can be retrieved from the file field by setting the form values like so: `$
 
 ```php
 $skeleton['image'] = [
-	'_title' => 'Image'
-	, 'type' => 'file'
+    '_title' => 'Image'
+    , 'type' => 'file'
 ];
 ```
 
@@ -160,8 +166,8 @@ Hidden fields are passed to the browser but not rendered.
 
 ```php
 $skeleton['id'] = [
-	'type' => 'hidden'
-	, 'value' => $someVar
+    'type'    => 'hidden'
+    , 'value' => $someVar
 ];
 ```
 
@@ -171,8 +177,8 @@ Password type fields will never render their own value, for security reasons.
 
 ```php
 $skeleton['password'] = [
-	'_title' => 'Password'
-	, 'type' => 'password'
+    '_title' => 'Password'
+    , 'type' => 'password'
 ];
 ```
 
@@ -182,31 +188,31 @@ Radio button fields take the special `_options` key. It is an associative array 
 
 ```php
 $skeleton['eyeColor'] = [
-	'_title' => 'Eye Color'
-	, 'type' => 'radios'
-	, '_options' => [
-		'blue' => 'Blue'
-		, 'brown' => 'Brown'
-		, 'green' => 'Green'
-		, 'hazel' => 'Hazel'
-	]
+    '_title'     => 'Eye Color'
+    , 'type'     => 'radios'
+    , '_options' => [
+        'blue' => 'Blue'
+        , 'brown' => 'Brown'
+        , 'green' => 'Green'
+        , 'hazel' => 'Hazel'
+    ]
 ];
 ```
 
 ### Select
 
-Select fields work almost the same way as field of the `radios` type. You can also use the `multiple` key (recommended value of which is also `"multiple"`)  to automatically append a `[]` to the submitted name, and allow the user to select multiple values.
+Select fields work almost the same way as field of the `radios` type. You can also use the `multiple` key (recommended value of which is also `"multiple"`)    to automatically append a `[]` to the submitted name, and allow the user to select multiple values.
 
 ```php
 $skeleton['eyeColor'] = [
-	'_title' => 'Eye Color'
-	, 'type' => 'Select'
-	, '_options' => [
-		'blue' => 'Blue'
-		, 'brown' => 'Brown'
-		, 'green' => 'Green'
-		, 'hazel' => 'Hazel'
-	]
+    '_title'     => 'Eye Color'
+    , 'type'     => 'Select'
+    , '_options' => [
+        'blue' => 'Blue'
+        , 'brown' => 'Brown'
+        , 'green' => 'Green'
+        , 'hazel' => 'Hazel'
+    ]
 ];
 ```
 
@@ -216,10 +222,10 @@ Text fields are simple. Attributes like `maxlength` or `autocomplete` can be spe
 
 ```php
 $skeleton['someString'] = [
-	'_title' => 'String'
-	, 'type' => 'text'
-	, 'maxlength' => 120
-	, 'autocomplete' => 'off'
+    '_title'         => 'String'
+    , 'type'         => 'text'
+    , 'maxlength'    => 120
+    , 'autocomplete' => 'off'
 ];
 ```
 
@@ -229,9 +235,9 @@ Textarea fields are almost as simple as text fields. Attributes like `rows` and 
 
 ```php
 $skeleton['someString'] = [
-	'_title' => 'String'
-	, 'type' => 'text'
-	, 'rows' => 10
+    '_title' => 'String'
+    , 'type' => 'text'
+    , 'rows' => 10
 ];
 ```
 
@@ -239,16 +245,32 @@ $skeleton['someString'] = [
 
 New fields can be created by extending the base class `SeanMorris\Form\Field` The `_class` key takes class name to use for the field. If you want to render the field with a custom template, see [EXTENDING](EXTENDING.md) for advanced topics.
 
+All you need to do is build the field's definition like you would as an element of a skeleton, and pass it on to `parent::__construct($fieldDef, $form);`.
+
 ```php
-$skeleton['title'] = [
-	'_title' => 'Title'
-	, 'type' => 'text'
-	, '_validators' => [
-   	  'SeanMorris\Form\Validator\Regex' => [
-        '/.{8,}/' => '%s must be at least 8 characters'
-      ]
-    ]
-  ]
+namespace SeanMorris\Form\Test\Extension;
+class NameField extends \SeanMorris\Form\Field
+{
+    public function __construct($fieldDef, $form)
+    {
+        $fieldDef += [
+            'type'     => 'text'
+            , '_regex' => [
+                '/^[a-zA-Z]$/' => '%s must consist of only letters.' 
+            ]
+        ];
+
+        parent::__construct($fieldDef, $form);
+    }
+}
+````
+Usage:
+
+```php
+$skeleton['fieldName'] = [
+    '_title'   => 'First Name'
+    , '_class' => 'SeanMorris\Form\Test\Extension\NameField'
+    , 'rows'   => 10
 ];
 ```
 
@@ -260,13 +282,13 @@ Validation is simple. There are a few validators that can be used with some spec
 
 Special key: `_required`.
 
-The required validator simply take an error message, to be displayed when the field is not filled in.  If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
+The required validator simply take an error message, to be displayed when the field is not filled in.    If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
 
 ```php
 $skeleton['title'] = [
-	'_title' => 'Title'
-	, 'type' => 'text'
-	, '_required' => '%s - Required.'
+    '_title'      => 'Title'
+    , 'type'      => 'text'
+    , '_required' => '%s - Required.'
 ];
 ```
 
@@ -278,9 +300,9 @@ The Email Validator take a single error string. If `%s` or `%1$s` appears in the
 
 ```php
 $skeleton['email'] = [
-	'_title' => 'Email'
-	, 'type' => 'text'
-	, '_email' => '%s must be a valid email.'
+    '_title'   => 'Email'
+    , 'type'   => 'text'
+    , '_email' => '%s must be a valid email.'
 ];
 ```
 
@@ -292,13 +314,13 @@ The Range Validator take an array of 3 keys, mapped to their error strings. The 
 
 ```php
 $skeleton['testField'] = [
-  'type' => 'number'
-  , '_title' => 'Test Field'
-  , '_range' => [
-    0 => '%s must be at least 0.'
-    , 10 => '%s must be no greater than 10.'
-    , 'nan' => '%s must be a numberical value.'
-  ]
+    'type' => 'number'
+    , '_title' => 'Test Field'
+    , '_range' => [
+        0       => '%s must be at least 0.'
+        , 10    => '%s must be no greater than 10.'
+        , 'nan' => '%s must be a numberical value.'
+    ]
 ];
 ```
 
@@ -310,28 +332,96 @@ Special key: `_regex`.
 The Regex validator takes an array of error messages, keyed by regex patterns. If the input value doesn't match any pattern, its error will be raised. If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
 
 ```php
-$skeleton['testField'] = [
-  'type' => 'text'
-  , '_title' => 'Test Field'
-  , '_regex' => [
-     '/.{8,}/' => '%s must be at least 8 characters'
-  ]
+$skeleton['password'] = [
+    'type'       => 'password'
+    , '_title'   => 'Password'
+    , '_confirm' => [
+        'confirmPassword' => '%s and %s must match.'
+    ]
+];
+
+$skeleton['confirmPassword'] = [
+    'type'     => 'password'
+    , '_title' => 'Confirm Password'
 ];
 ```
+### Confirm Validator
+Class `SeanMorris\Form\Validator\Confirm`
+
+Special key: `_confirm`.
+
+The confirm validator take an array of error messages keyed by field name. The keys refer to other fields that must be submitted with the same value as the main field, as in a password confirmation field. Multiple fields may be specified as confirmation fields, for extra certainty.
+
+If `%1$s` appears in the message, it will be replaced with the field title, and if `%2$s` appears in the message, it will be replaced with the confirmation field title. If simply `%s` is used, the first `%s` will be replaced with the main field title, and the second `%s` with the confirmation field's.
+
+```php
+$skeleton['testField'] = [
+    'type'       => 'password'
+    , '_title'   => 'Password'
+    , '_confirm' => [
+         '/.{8,}/' => '%s must be at least 8 characters'
+    ]
+];
+```
+
+### OptionFilter Validator
+Class `SeanMorris\Form\Validator\OptionFilter`
+
+Special key: `_optionFilter`.
+
+The OptionsFilter validator ensures radio/select fields are not filled with anything except the provided values. The validator take an error message to be displayed when the field does not have a valid value. If `%s` or `%1$s` appears in the message, it will be replaced with the field title.
+
+```php
+$skeleton['select'] = [
+    'type'            => 'radios'
+    , '_title'        => 'Options'
+    , '_options'      => [
+        'option_1' => 1
+        , 'option_2' => 2
+        , 'option_3' => 3
+    ]
+    , '_optionFilter' => 'Invalid value for %s.'
+];
+
+```
+
 ### Aditional validators.
 
 New validators can be created by extending the base class `SeanMorris\Form\Validator\Validator` The `_validators` key takes an array keyed by validator class names. The values are passed to the validator constructors as arguments. See [EXTENDING](EXTENDING.md) for more information on customization.
 
 ```php
-$skeleton['title'] = [
-	'_title' => 'Title'
-	, 'type' => 'text'
-	, '_validators' => [
-   	  'SeanMorris\Form\Validator\Regex' => [
-        '/.{8,}/' => '%s must be at least 8 characters'
-      ]
+namespace SeanMorris\Form\Test\Extension;
+class NameValidator extends \SeanMorris\Form\Validator\Validator
+{
+    public function __construct($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
+    }
+
+    public function validate($form, $field = NULL)
+    {
+        parent::validate($form, $field);
+        
+        $value = $field->value();
+
+        if(isset($value) && strlen($value) && !preg_match('/^[A-Za-z]+$/', $value))
+        {
+            $this->errors[] = $this->errorMessage;
+        }
+
+        return !$this->errors;
+    }
+}
+```
+Usage:
+
+```php
+$skeleton['name'] = [
+    '_title'        => 'Name'
+    , 'type'        => 'text'
+    , '_validators' => [
+        'SeanMorris\Form\Test\Extension\NameValidator' => '%s must contain only letters.'
     ]
-  ]
 ];
 ```
 
@@ -344,17 +434,17 @@ Just remember to call the parent constructor afterward.
 ```php
 class ReusableForm extends \SeanMorris\Form\Form
 {
-	public function __construct($skeleton = [])
-	{
-		$skeleton['_method'] = 'POST';
+    public function __construct($skeleton = [])
+    {
+        $skeleton['_method'] = 'POST';
 
-		$skeleton['name'] = [
-			'_title' => 'Name'
-			, 'type' => 'text'
-		];
+        $skeleton['name'] = [
+            '_title' => 'Name'
+            , 'type' => 'text'
+        ];
 
-		parent::__construct($skeleton);
-	}
+        parent::__construct($skeleton);
+    }
 }
 
 $form = new ReusableForm();

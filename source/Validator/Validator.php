@@ -1,5 +1,8 @@
 <?php
 namespace SeanMorris\Form\Validator;
+/**
+ * Abstact validator base class.
+ */
 abstract class Validator
 {
 	protected $errors = [];

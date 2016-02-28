@@ -1,9 +1,10 @@
 <?php
 namespace SeanMorris\Form\Theme\Form;
+/**
+ * Template for Fieldsets.
+ */
 class Fieldset extends Field
-{
-
-}
+{}
 __halt_Compiler();
 ?>
 <fieldset<?php
