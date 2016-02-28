@@ -1216,6 +1216,7 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		]);
 
 		$form->validate([]);
+		
 		$this->assertFalse(
 			$form->errors()
 			, 'Error thrown for no reason.'
