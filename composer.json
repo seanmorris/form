@@ -12,12 +12,6 @@
     "require": {
         "SeanMorris/Theme": "^1.0"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "/home/sean/packages/SeanMorris/Theme"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "SeanMorris\\Form\\Test\\": "test/",
