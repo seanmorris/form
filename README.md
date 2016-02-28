@@ -2,9 +2,9 @@
 
 ## Rapid, themable forms for PHP.
 
-The Form library allows you to rapidly develop, theme, and validate forms, so you can get back to programming.
-
 [![Build Status](https://travis-ci.org/seanmorris/form.svg?branch=master)](https://travis-ci.org/seanmorris/form) [![Latest Stable Version](https://poser.pugx.org/seanmorris/form/v/stable)](https://packagist.org/packages/seanmorris/form) [![Total Downloads](https://poser.pugx.org/seanmorris/form/downloads)](https://packagist.org/packages/seanmorris/form) [![Latest Unstable Version](https://poser.pugx.org/seanmorris/form/v/unstable)](https://packagist.org/packages/seanmorris/form) [![License](https://poser.pugx.org/seanmorris/form/license)](https://packagist.org/packages/seanmorris/form)
+
+The Form library allows you to rapidly develop, theme, and validate forms, so you can get back to programming.
 
 # Creating a Form
 
