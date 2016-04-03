@@ -66,7 +66,7 @@ class Form
 	 * 
 	 * @param array $skeleton Information to set up form fields.
 	 */
-	public function __construct($skeleton)
+	public function __construct(array $skeleton = [])
 	{
 		$this->skeleton = $skeleton;
 		$this->method = 'GET';
@@ -191,7 +191,7 @@ class Form
 	 * @param array $values List of values.
 	 * @param array $override Override locked fields.
 	 */
-	public function setValues(array $values = NULL, $override = false)
+	public function setValues(array $values = [], $override = false)
 	{
 		$this->errors = [];
 		
@@ -243,9 +243,9 @@ class Form
 	 * 
 	 * @return boolean TRUE if no errors were generated.
 	 */
-	public function validate(array $values = null)
+	public function validate(array $values = [])
 	{
-		$this->setValues($values, true);
+		$this->setValues($values);
 
 		foreach($this->fields as $fieldName => $field)
 		{
