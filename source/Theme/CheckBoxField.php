@@ -6,7 +6,7 @@ class CheckBoxField extends Field
 	{
 		parent::preprocess($vars);
 		
-		if(!isset($vars['value']))
+		if(empty($vars['value']))
 		{
 			if(isset($vars['fieldDef']['_value']))
 			{
@@ -28,7 +28,7 @@ __halt_Compiler();
 <label for = "<?=$fullname;?>">
 <input <?php
 	foreach($attrs as $k => $v): ?> <?=$k?> = "<?=$v?>"<?php endforeach;
-?> />
+?> value = "<?=$value?>"/>
 <?=$title;?> <span class = "required"><?=$indicator;?></span>
  <?php if(isset($caption)): ?>
  	<span class = "caption"><?=$caption; ?></span>

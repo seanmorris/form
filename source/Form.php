@@ -194,7 +194,7 @@ class Form
 	public function setValues(array $values = [], $override = false)
 	{
 		$this->errors = [];
-		
+
 		if($values === NULL)
 		{
 			if($this->method === 'POST')
@@ -206,8 +206,8 @@ class Form
 					}
 					, $_FILES
 				);
-				
-				$values = $files + $_POST;
+
+				$values = $_POST + $files;
 			}
 			elseif($this->method === 'GET')
 			{
@@ -288,6 +288,8 @@ class Form
 		}
 
 		$fields = [];
+
+		$this->enctype = 'multipart/form-data';
 
 		foreach($this->fields as $field)
 		{
