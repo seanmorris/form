@@ -10,11 +10,11 @@ class CheckBoxField extends Field
 		{
 			if(isset($vars['fieldDef']['_value']))
 			{
-				$vars['value'] = $vars['fieldDef']['_value'];
+				$vars['attrs']['value'] = $vars['fieldDef']['_value'];
 			}
 			else
 			{
-				$vars['value'] = 1;
+				$vars['attrs']['value'] = 1;
 			}
 		}
 		else
@@ -25,7 +25,7 @@ class CheckBoxField extends Field
 }
 __halt_Compiler();
 ?>
-<label for = "<?=$fullname;?>">
+<label>
 <input <?php
 	foreach($attrs as $k => $v): ?> <?=$k?> = "<?=$v?>"<?php endforeach;
 ?> value = "<?=$value?>"/>

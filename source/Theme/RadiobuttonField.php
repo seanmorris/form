@@ -9,7 +9,7 @@ __halt_compiler();
 ?>
 <label><?=$title;?> <span class = "required"><?=$indicator;?></span>
 <?php foreach($options as $label => $optionValue): ?>
-	<label for = "<?=$fullname;?>">
+	<label>
 		<input name = "<?=$fullname; ?>" type = "radio" value = "<?=$optionValue; ?>" <?php if($optionValue === $value):?>checked="checked"<?php endif;?> />
 		<?=$label; ?>
 	</label>

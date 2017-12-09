@@ -14,7 +14,7 @@ class TextareaField extends Field
 }
 __halt_Compiler();
 ?>
-<label for = "<?=$fullname;?>"><?=$title?> <span class = "required"><?=$indicator;?></span>
+<label><?=$title?> <span class = "required"><?=$indicator;?></span>
 <textarea<?php
 	foreach($attrs as $k => $v): ?> <?=$k?> = "<?=$v?>"<?php endforeach;
 ?>><?=$value;?></textarea>
