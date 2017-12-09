@@ -135,7 +135,7 @@ class Field
 
 		if(isset($fieldDef['_lock']))
 		{
-			$this->locked = $fieldDef['_lock'];	
+			$this->locked = $fieldDef['_lock'];
 		}
 
 		if(isset($fieldDef['value']))
@@ -202,6 +202,11 @@ class Field
 	 */
 	public function set($value, $override = false)
 	{
+		\SeanMorris\Ids\Log::debug(
+			sprintf('Setting value for FIELD[%s]...', $this->name)
+			, $value
+			, $override
+		);
 		$this->errors = [];
 
 		if($this->locked && !$override)
@@ -386,6 +391,11 @@ class Field
 	{
 		$fullname = $this->name;
 		
+		if($fullname == '0' && $this->multi == FALSE)
+		{
+			$fullname = NULL;
+		}
+
 		if($this->superior && $this->superior->isArray())
 		{
 			$superior = $this->superior;

@@ -23,7 +23,7 @@ class Field extends \SeanMorris\Theme\View
 }
 __halt_Compiler();
 ?>
-<label for = "<?=$fullname;?>"><?=$title;?>
+<label><?=$title;?>
 	<?php if(isset($indicator)): ?>
 		<span class = "required"><?=$indicator;?></span>
 	<?php endif; ?>

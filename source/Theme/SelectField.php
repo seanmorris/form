@@ -44,7 +44,7 @@ class SelectField extends OptionField
 }
 __halt_compiler();
 ?>
-<label for = "<?=$fullname;?>"><?=$title;?> <?php if(isset($indicator)): ?><span class = "required"><?=$indicator;?></span><?php endif; ?>
+<label><?=$title;?> <?php if(isset($indicator)): ?><span class = "required"><?=$indicator;?></span><?php endif; ?>
 <select <?=$select_attrs;?>>
 <?php foreach($options as $label => $optionValue): ?>
 		<option value = "<?=$optionValue; ?>" <?php 
@@ -52,4 +52,5 @@ __halt_compiler();
 				endif; ?>><?=$label; ?></option>
 <?php endforeach; ?>	
 </select>
+<span class = "caption"><?=$caption; ?></span>
 </label>

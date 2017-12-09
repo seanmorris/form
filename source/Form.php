@@ -193,6 +193,11 @@ class Form
 	 */
 	public function setValues(array $values = NULL, $override = false)
 	{
+		\SeanMorris\Ids\Log::debug(
+			'Setting Values for FORM...'
+			, $values
+			, $override
+		);
 		$this->errors = [];
 		
 		if($values === NULL)
@@ -229,7 +234,7 @@ class Form
 		{
 			if($field instanceof Fieldset && !$field->isArray())
 			{
-				$field->set($values, false);
+				$field->set($values, $override);
 			}
 		}
 
@@ -245,7 +250,7 @@ class Form
 	 */
 	public function validate(array $values = null)
 	{
-		$this->setValues($values, true);
+		$this->setValues($values);
 
 		foreach($this->fields as $fieldName => $field)
 		{

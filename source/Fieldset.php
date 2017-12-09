@@ -79,10 +79,22 @@ class Fieldset extends Field
 	 */
 	public function set($values, $override = false)
 	{
-		if(!is_array($values))
-		{
+		if(!is_array($values) || (
+			$this->superior
+				&& !$this->superior->multi
+				&& isset($this->children[0]
+		))) {
 			$values = [$values];
 		}
+
+		$childNames = array_flip(array_keys($this->children));
+
+		\SeanMorris\Ids\Log::debug(
+			sprintf('Setting Values for FIELDSET[%s]...', $this->name)
+			, $values
+			, $childNames
+			, $override
+		);
 
 		$this->values = $values + $this->values;
 
@@ -109,8 +121,6 @@ class Fieldset extends Field
 			}
 		}
 
-		$childNames = array_flip(array_keys($this->children));
-
 		foreach($values as $fieldName => $fieldValue)
 		{
 			if($this->multi && $prototype)
@@ -119,7 +129,7 @@ class Fieldset extends Field
 				{
 					$this->children[$fieldName] = clone $prototype;
 					$this->children[$fieldName]->name = $fieldName;
-					$this->children[$fieldName]->set($fieldValue);
+					$this->children[$fieldName]->set($fieldValue, $override);
 				}
 			}
 
@@ -127,7 +137,7 @@ class Fieldset extends Field
 			{
 				unset($childNames[$fieldName]);
 
-				$this->children[$fieldName]->set($fieldValue);
+				$this->children[$fieldName]->set($fieldValue, $override);
 			}
 		}
 
@@ -137,10 +147,16 @@ class Fieldset extends Field
 		{
 			if($this->children[$childName] instanceof Fieldset)
 			{
+				\SeanMorris\Ids\Log::debug(
+					sprintf('Setting empty values for FIELDSET[%s]...', $childName)
+				);
 				$this->children[$childName]->set([]);	
 			}
 			else if(!$this->children[$childName]->suppress())
 			{
+				\SeanMorris\Ids\Log::debug(
+					sprintf('Setting empty values for FIELD[%s]...', $childName)
+				);
 				$this->children[$childName]->set('');
 			}
 		}
@@ -177,6 +193,14 @@ class Fieldset extends Field
 			{
 				$values[$fieldName] = $fieldValue;
 			}
+		}
+
+		if($this->superior
+			&& !$this->superior->multi
+			&& isset($values[0])
+			&& count($values) == 1
+		) {
+			$values = current($values);
 		}
 
 		return $values;
