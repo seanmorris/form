@@ -80,8 +80,7 @@ class Fieldset extends Field
 	public function set($values, $override = false)
 	{
 		if(!is_array($values) || (
-			$this->superior
-				&& !$this->superior->multi
+			!$this->multi
 				&& isset($this->children[0]
 		))) {
 			$values = [$values];
@@ -195,8 +194,7 @@ class Fieldset extends Field
 			}
 		}
 
-		if($this->superior
-			&& !$this->superior->multi
+		if(!$this->multi
 			&& isset($values[0])
 			&& count($values) == 1
 		) {
