@@ -193,11 +193,6 @@ class Form
 	 */
 	public function setValues(array $values = [], $override = false)
 	{
-		\SeanMorris\Ids\Log::debug(
-			'Setting Values for FORM...'
-			, $values
-			, $override
-		);
 		$this->errors = [];
 
 		if($values === NULL)
