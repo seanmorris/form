@@ -375,6 +375,16 @@ class Field
 	}
 
 	/**
+	 * Returns the field's type
+	 * 
+	 * @return string The field's type.
+	 */
+	public function type()
+	{
+		return $this->type;
+	}
+
+	/**
 	 * Locks the field.
 	 */
 	public function lock()
@@ -387,17 +397,17 @@ class Field
 	 * 
 	 * @return string the full name.
 	 */
-	protected function fullname()
+	public function fullname()
 	{
 		$fullname = $this->name;
 		
-		if($fullname == '0' && $this->multi == FALSE)
-		{
-			$fullname = NULL;
-		}
-
 		if($this->superior && $this->superior->isArray())
 		{
+			if($fullname == '0' && $this->superior->multi == FALSE)
+			{
+				$fullname = NULL;
+			}
+
 			$superior = $this->superior;
 
 			$fullname = $superior->fullname()

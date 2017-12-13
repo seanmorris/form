@@ -17,7 +17,7 @@ class SelectField extends Field
 		parent::__construct($fieldDef, $form);
 	}
 
-	protected function fullname()
+	public function fullname()
 	{
 		$name = parent::fullname();
 

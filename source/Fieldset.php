@@ -81,8 +81,8 @@ class Fieldset extends Field
 	{
 		if(!is_array($values) || (
 			!$this->multi
-				&& isset($this->children[0]
-		))) {
+				&& isset($this->children[0])
+		)) {
 			$values = [$values];
 		}
 
