@@ -102,7 +102,7 @@ class Form
 
 		foreach($skeleton as $fieldName => $fieldDef)
 		{
-			if(preg_match('/^_/', $fieldName))
+			if(preg_match('/^[-_]/', $fieldName))
 			{
 				continue;
 			}

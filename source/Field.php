@@ -403,11 +403,6 @@ class Field
 		
 		if($this->superior && $this->superior->isArray())
 		{
-			if($fullname == '0' && $this->superior->multi == FALSE)
-			{
-				$fullname = NULL;
-			}
-
 			$superior = $this->superior;
 
 			$fullname = $superior->fullname()

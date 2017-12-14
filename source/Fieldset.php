@@ -194,13 +194,6 @@ class Fieldset extends Field
 			}
 		}
 
-		if(!$this->multi
-			&& isset($values[0])
-			&& count($values) == 1
-		) {
-			$values = current($values);
-		}
-
 		return $values;
 	}
 
