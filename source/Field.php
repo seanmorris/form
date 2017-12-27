@@ -419,4 +419,9 @@ class Field
 	{
 		return $this->fieldDef;
 	}
+
+	public function options()
+	{
+		return $this->options;
+	}
 }
