@@ -40,6 +40,27 @@ class Fieldset extends Field
 		{
 			$this->addChildren($fieldDef['_children']);
 		}
+
+		if($this->multi && isset($this->children[0]))
+		{
+			$prototype = $this->children[0];
+
+			$this->children = [-1 => NULL] + $this->children;
+
+			$this->children[-1] = clone $prototype;
+			$this->children[-1]->disabled = true;
+			$this->children[-1]->name = -1;
+			$this->children[-1]->suppress = true;
+
+			if($this->children[-1] instanceof Fieldset)
+			{
+				$this->children[-1]->set([]);	
+			}
+			else
+			{
+				$this->children[-1]->set('');
+			}
+		}
 	}
 
 	/**
@@ -92,7 +113,7 @@ class Fieldset extends Field
 			sprintf('Setting Values for FIELDSET[%s]...', $this->name)
 			, $values
 			, $childNames
-			, $override
+			, (int) $override
 		);
 
 		$this->values = $values + $this->values;
@@ -102,22 +123,6 @@ class Fieldset extends Field
 		if($this->multi && isset($this->children[0]))
 		{
 			$prototype = $this->children[0];
-
-			$this->children = [-1 => NULL] + $this->children;
-
-			$this->children[-1] = clone $prototype;
-			$this->children[-1]->disabled = true;
-			$this->children[-1]->name = -1;
-			$this->children[-1]->suppress = true;
-
-			if($this->children[-1] instanceof Fieldset)
-			{
-				$this->children[-1]->set([]);	
-			}
-			else
-			{
-				$this->children[-1]->set('');
-			}
 		}
 
 		foreach($values as $fieldName => $fieldValue)

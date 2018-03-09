@@ -1298,16 +1298,16 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 		$tag = $this->getTag($renderedForm, 'input', ['name' => 'firstName']);
 		$this->assertTrue($tag, 'First name field tag not found in rendered form.');
 
-		$tag = $this->getTag($renderedForm, 'label', ['for' => 'firstName']);
-		$requiedTag = $this->getTag($tag, 'span', ['class' => 'required']);
-		$this->assertTrue($requiedTag, 'Required annotation not found on first name field.');
+		// $tag = $this->getTag($renderedForm, 'label', ['for' => 'firstName']);
+		// $requiedTag = $this->getTag($tag, 'span', ['class' => 'required']);
+		// $this->assertTrue($requiedTag, '"Required field" annotation not found on first name field.');
 
 		$tag = $this->getTag($renderedForm, 'input', ['name' => 'lastName']);
 		$this->assertTrue($tag, 'Last name field tag not found in rendered form.');
 
-		$tag = $this->getTag($renderedForm, 'label', ['for' => 'lastName']);
-		$requiedTag = $this->getTag($tag, 'span', ['class' => 'required']);
-		$this->assertTrue($requiedTag, 'Required annotation not found on first name field.');
+		// $tag = $this->getTag($renderedForm, 'label', ['for' => 'lastName']);
+		// $requiedTag = $this->getTag($tag, 'span', ['class' => 'required']);
+		// $this->assertTrue($requiedTag, '"Required field" annotation not found on last name field.');
 
 		$tag = $this->getTag($renderedForm, 'textarea', ['name' => 'bio']);
 		$this->assertTrue($tag, 'Bio field tag not found in rendered form.');

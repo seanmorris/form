@@ -28,7 +28,7 @@ __halt_Compiler();
 <label>
 <input <?php
 	foreach($attrs as $k => $v): ?> <?=$k?> = "<?=$v?>"<?php endforeach;
-?> value = "<?=$value?>"/>
+?>/>
 <?=$title;?> <span class = "required"><?=$indicator;?></span>
  <?php if(isset($caption)): ?>
  	<span class = "caption"><?=$caption; ?></span>
