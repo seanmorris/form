@@ -33,4 +33,14 @@ class SelectField extends Field
 	{
 		return $this->multi;
 	}
+
+	public function set($value, $override = false)
+	{
+		if($value === '')
+		{
+			$value = NULL;
+		}
+
+		parent::set($value, $override);
+	}
 }
