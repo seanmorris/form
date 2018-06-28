@@ -277,13 +277,15 @@ class Fieldset extends Field
 	}
 
 	/**
-	 * Validates the fields in this fieldset.
+	 * Validates the fieldset and its fields.
 	 * 
 	 * @return True if no errors were generated.
 	 */
 	public function validate()
 	{
 		$this->errors = [];
+
+		parent::validate();
 		
 		foreach($this->children as $fieldName => $field)
 		{
