@@ -202,11 +202,6 @@ class Field
 	 */
 	public function set($value, $override = false)
 	{
-		\SeanMorris\Ids\Log::debug(
-			sprintf('Setting value for FIELD[%s]...', $this->name)
-			, $value
-			, $override
-		);
 		$this->errors = [];
 
 		if($this->locked && !$override)

@@ -109,13 +109,6 @@ class Fieldset extends Field
 
 		$childNames = array_flip(array_keys($this->children));
 
-		\SeanMorris\Ids\Log::debug(
-			sprintf('Setting Values for FIELDSET[%s]...', $this->name)
-			, $values
-			, $childNames
-			, (int) $override
-		);
-
 		$this->values = $values + $this->values;
 
 		$prototype = NULL;
@@ -158,9 +151,6 @@ class Fieldset extends Field
 			}
 			else if(!$this->children[$childName]->suppress())
 			{
-				\SeanMorris\Ids\Log::debug(
-					sprintf('Setting empty values for FIELD[%s]...', $childName)
-				);
 				$this->children[$childName]->set('');
 			}
 		}
