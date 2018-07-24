@@ -144,9 +144,6 @@ class Fieldset extends Field
 		{
 			if($this->children[$childName] instanceof Fieldset)
 			{
-				\SeanMorris\Ids\Log::debug(
-					sprintf('Setting empty values for FIELDSET[%s]...', $childName)
-				);
 				$this->children[$childName]->set([]);	
 			}
 			else if(!$this->children[$childName]->suppress())
