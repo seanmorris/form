@@ -419,4 +419,9 @@ class Field
 	{
 		return $this->options;
 	}
+
+	public function clear()
+	{
+		$this->value = NULL;
+	}
 }

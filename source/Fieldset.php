@@ -60,6 +60,8 @@ class Fieldset extends Field
 			{
 				$this->children[-1]->set('');
 			}
+
+			unset($this->children[0]);
 		}
 	}
 
@@ -107,15 +109,29 @@ class Fieldset extends Field
 			$values = [$values];
 		}
 
+		if($this->multi)
+		{
+			unset($values[-1]);
+
+			$nonNumeric = array_filter(array_keys($values), function($x){
+				return !is_numeric($x);
+			});
+
+			if(!$nonNumeric)
+			{
+				$values = array_values($values);
+			}
+		}
+
 		$childNames = array_flip(array_keys($this->children));
 
 		$this->values = $values + $this->values;
 
 		$prototype = NULL;
 
-		if($this->multi && isset($this->children[0]))
+		if($this->multi && isset($this->children[-1]))
 		{
-			$prototype = $this->children[0];
+			$prototype = $this->children[-1];
 		}
 
 		foreach($values as $fieldName => $fieldValue)
@@ -142,13 +158,18 @@ class Fieldset extends Field
 
 		foreach($childNames as $childName)
 		{
+			if($childName == -1)
+			{
+				continue;
+			}
+
 			if($this->children[$childName] instanceof Fieldset)
 			{
-				$this->children[$childName]->set([]);	
+				$this->children[$childName]->clear();	
 			}
 			else if(!$this->children[$childName]->suppress())
 			{
-				$this->children[$childName]->set('');
+				$this->children[$childName]->clear();
 			}
 		}
 	}
@@ -283,5 +304,24 @@ class Fieldset extends Field
 		}
 
 		return !$this->errors;
+	}
+
+	public function clear()
+	{
+		$this->values = [];
+
+		if(!$this->multi)
+		{
+			return;
+		}
+
+		$this->children = [];
+		// if(isset($this->children[-1]))
+		// {
+		// 	$this->children = [-1 => $this->children[-1]];
+		// }
+		// else
+		// {
+		// }
 	}
 }

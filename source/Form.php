@@ -182,6 +182,11 @@ class Form
 			}
 		}
 
+		if(class_exists('SeanMorris\Ids\Log'))
+		{
+			\SeanMorris\Ids\Log::debug('Getting form values.', $values);
+		}
+
 		return $values;
 	}
 
@@ -193,6 +198,11 @@ class Form
 	 */
 	public function setValues(array $values = [], $override = false)
 	{
+		if(class_exists('SeanMorris\Ids\Log'))
+		{
+			\SeanMorris\Ids\Log::debug('Setting form values.', $values);
+		}
+
 		$this->errors = [];
 
 		if($values === NULL)
@@ -217,11 +227,15 @@ class Form
 
 		$fields = $this->fields;
 
-		foreach($values as $fieldName => $fieldValue)
+		foreach($fields as $fieldName => $field)
 		{
-			if(isset($fields[$fieldName]))
+			if(isset($values[$fieldName]))
 			{
-				$fields[$fieldName]->set($fieldValue, $override);
+				$fields[$fieldName]->set($values[$fieldName], $override);
+			}
+			else
+			{
+				$fields[$fieldName]->clear();
 			}
 		}
 
