@@ -113,6 +113,8 @@ class Fieldset extends Field
 		{
 			unset($values[-1]);
 
+			ksort($values);
+
 			$nonNumeric = array_filter(array_keys($values), function($x){
 				return !is_numeric($x);
 			});
