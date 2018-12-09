@@ -102,11 +102,15 @@ class Fieldset extends Field
 	 */
 	public function set($values, $override = false)
 	{
-		if(!is_array($values) || (
-			!$this->multi
-				&& isset($this->children[0])
-		)) {
+
+		if(!is_array($values) && !$this->multi && isset($this->children[0]))
+		{
 			$values = [$values];
+		}
+
+		if(!is_array($values))
+		{
+			return;
 		}
 
 		if($this->multi)
