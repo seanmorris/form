@@ -18,7 +18,7 @@ class Required extends Validator
 
 		$value = $field->value();
 
-		if(is_scalar($value) && !strlen($value))
+		if(is_null($value) || (is_scalar($value) && !strlen($value)))
 		{
 			$this->errors[] = $this->errorMessage;
 		}
