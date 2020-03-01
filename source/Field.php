@@ -40,7 +40,7 @@ class Field
 	 * @var string
 	 */
 	protected $type;
-	
+
 	/**
 	 * Field is multivalued if true.
 	 * @var bool
@@ -112,7 +112,7 @@ class Field
 
 	/**
 	 * Sets up the field based on the $fieldDef
-	 * 
+	 *
 	 * @param array $fieldDef Array describing field details.
 	 * @param object $form Form that owns this field.
 	 */
@@ -120,17 +120,17 @@ class Field
 	{
 		if(isset($fieldDef['name']))
 		{
-			$this->name = $fieldDef['name'];	
+			$this->name = $fieldDef['name'];
 		}
-		
+
 		if(isset($fieldDef['_title']))
 		{
-			$this->title = $fieldDef['_title'];;	
-		}		
-		
+			$this->title = $fieldDef['_title'];;
+		}
+
 		if(isset($fieldDef['type']))
 		{
-			$this->type = $fieldDef['type'];	
+			$this->type = $fieldDef['type'];
 		}
 
 		if(isset($fieldDef['_lock']))
@@ -140,7 +140,7 @@ class Field
 
 		if(isset($fieldDef['value']))
 		{
-			$this->value = $fieldDef['value'];	
+			$this->value = $fieldDef['value'];
 		}
 
 		if(isset($fieldDef['_multi']))
@@ -190,13 +190,13 @@ class Field
 		}
 
 		$this->fieldDef = $fieldDef;
-		
+
 		$this->form = $form;
 	}
 
 	/**
 	 * Sets the field value
-	 * 
+	 *
 	 * @param mixed $value field value.
 	 * @param bool $override if true, the call will change the value of a locked field.
 	 */
@@ -214,7 +214,7 @@ class Field
 
 	/**
 	 * Gets the field value
-	 * 
+	 *
 	 * @return mixed $value field value.
 	 */
 	public function value()
@@ -233,7 +233,10 @@ class Field
 		{
 			if(!$validator->validate($this->form, $this))
 			{
-				$this->errors = array_merge($this->errors, $validator->errors());
+				$this->errors = array_merge(
+					$this->errors
+					, $validator->errors()
+				);
 			}
 		}
 
@@ -247,7 +250,7 @@ class Field
 
 	/**
 	 * Return whether or not field is suppressed.
-	 * 
+	 *
 	 * @return bool true if suppresdes.
 	 */
 	public function suppress()
@@ -257,7 +260,7 @@ class Field
 
 	/**
 	 * Return a list of validation errors.
-	 * 
+	 *
 	 * @return array List of valiation errors.
 	 */
 	public function errors()
@@ -267,7 +270,7 @@ class Field
 
 	/**
 	 * Return a field attribute.
-	 * 
+	 *
 	 * @return string attribute value.
 	 */
 	public function attr($name)
@@ -285,7 +288,7 @@ class Field
 
 	/**
 	 * Return a list of field attributes.
-	 * 
+	 *
 	 * @return array of attributeName => value pairs.
 	 */
 	public function attrs()
@@ -317,7 +320,7 @@ class Field
 
 	/**
 	 * Render the field.
-	 * 
+	 *
 	 * @return object|string View or HTML for field.
 	 */
 	public function render($theme)
@@ -333,6 +336,7 @@ class Field
 			, 'disabled' => $this->disabled
 			, 'options' => $this->options
 			, 'attrs' => $this->attrs()
+			, 'errors' => $this->errors()
 			, 'fieldDef' => $this->fieldDef
 		]);
 
@@ -341,7 +345,7 @@ class Field
 
 	/**
 	 * Returns the field title.
-	 * 
+	 *
 	 * @return bool true if suppresdes.
 	 */
 	public function title()
@@ -351,7 +355,7 @@ class Field
 
 	/**
 	 * Returns the field's fieldset if applicable.
-	 * 
+	 *
 	 * @return object the fieldset.
 	 */
 	public function superior()
@@ -361,7 +365,7 @@ class Field
 
 	/**
 	 * Returns the field's fieldset if applicable.
-	 * 
+	 *
 	 * @return bool true if suppresdes.
 	 */
 	public function isArray()
@@ -371,7 +375,7 @@ class Field
 
 	/**
 	 * Returns the field's type
-	 * 
+	 *
 	 * @return string The field's type.
 	 */
 	public function type()
@@ -389,13 +393,13 @@ class Field
 
 	/**
 	 * Returns the field's full name.
-	 * 
+	 *
 	 * @return string the full name.
 	 */
 	public function fullname()
 	{
 		$fullname = $this->name;
-		
+
 		if($this->superior && $this->superior->isArray())
 		{
 			$superior = $this->superior;
