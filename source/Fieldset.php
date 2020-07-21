@@ -17,7 +17,7 @@ class Fieldset extends Field
 
 	/**
 	 * Sets up the fieldset based on the $fieldDef
-	 * 
+	 *
 	 * @param array $fieldDef Array describing fieldset details.
 	 * @param object $form Form that owns this fieldset.
 	 */
@@ -32,6 +32,8 @@ class Fieldset extends Field
 		{
 			$fieldDef['-multi'] = $fieldDef['_multi'];
 			$fieldDef['_children'] = [$fieldDef['_children']];
+
+			$this->multi = $fieldDef['-multi'];
 		}
 
 		parent::__construct($fieldDef, $form);
@@ -54,7 +56,7 @@ class Fieldset extends Field
 
 			if($this->children[-1] instanceof Fieldset)
 			{
-				$this->children[-1]->set([]);	
+				$this->children[-1]->set([]);
 			}
 			else
 			{
@@ -67,7 +69,7 @@ class Fieldset extends Field
 
 	/**
 	 * Adds a child to the fieldset.
-	 * 
+	 *
 	 * @param array $fieldDef fieldDef of field being added.
 	 */
 	public function addChildren($fieldDefs)
@@ -87,7 +89,7 @@ class Fieldset extends Field
 
 	/**
 	 * Returns a list of the fieldset's children.
-	 * 
+	 *
 	 * @return array child fields.
 	 */
 	public function fields()
@@ -97,7 +99,7 @@ class Fieldset extends Field
 
 	/**
 	 * Sets the fieldset's children.
-	 * 
+	 *
 	 * @param array list of values.
 	 */
 	public function set($values, $override = false)
@@ -112,6 +114,7 @@ class Fieldset extends Field
 		{
 			return;
 		}
+
 
 		if($this->multi)
 		{
@@ -132,6 +135,7 @@ class Fieldset extends Field
 		$childNames = array_flip(array_keys($this->children));
 
 		$this->values = $values + $this->values;
+
 
 		$prototype = NULL;
 
@@ -169,9 +173,11 @@ class Fieldset extends Field
 				continue;
 			}
 
+			\SeanMorris\Ids\Log::error($childName, $values ?? NULL);
+
 			if($this->children[$childName] instanceof Fieldset)
 			{
-				$this->children[$childName]->clear();	
+				$this->children[$childName]->clear();
 			}
 			else if(!$this->children[$childName]->suppress())
 			{
@@ -182,7 +188,7 @@ class Fieldset extends Field
 
 	/**
 	 * Gets the fieldset's children.
-	 * 
+	 *
 	 * @return array list of values.
 	 */
 	public function value()
@@ -218,7 +224,7 @@ class Fieldset extends Field
 
 	/**
 	 * Renders the fieldet to a view.
-	 * 
+	 *
 	 * @return object View object for fieldset.
 	 */
 	public function render($theme)
@@ -250,7 +256,7 @@ class Fieldset extends Field
 
 	/**
 	 * Informs a child field that this fieldset is its direct owner.
-	 * 
+	 *
 	 * @param object Field to subjugate.
 	 */
 	public function subjugate($field)
@@ -260,7 +266,7 @@ class Fieldset extends Field
 
 	/**
 	 * Returns a boolean indicating whether or not this field can hold an array.
-	 * 
+	 *
 	 * @return boolean true if field holds an array.
 	 */
 	public function isArray()
@@ -270,7 +276,7 @@ class Fieldset extends Field
 
 	/**
 	 * Returns a boolean indicating whether or not this field is multivalued.
-	 * 
+	 *
 	 * @return boolean true if field is multivalued.
 	 */
 	public function isMulti()
@@ -292,7 +298,7 @@ class Fieldset extends Field
 
 	/**
 	 * Validates the fieldset and its fields.
-	 * 
+	 *
 	 * @return True if no errors were generated.
 	 */
 	public function validate()
@@ -300,7 +306,7 @@ class Fieldset extends Field
 		$this->errors = [];
 
 		parent::validate();
-		
+
 		foreach($this->children as $fieldName => $field)
 		{
 			if(!$field->validate())
