@@ -50,9 +50,10 @@ class Fieldset extends Field
 			$this->children = [-1 => NULL] + $this->children;
 
 			$this->children[-1] = clone $prototype;
+
 			$this->children[-1]->disabled = true;
-			$this->children[-1]->name = -1;
 			$this->children[-1]->suppress = true;
+			$this->children[-1]->name     = -1;
 
 			if($this->children[-1] instanceof Fieldset)
 			{
@@ -104,7 +105,6 @@ class Fieldset extends Field
 	 */
 	public function set($values, $override = false)
 	{
-
 		if(!is_array($values) && !$this->multi && isset($this->children[0]))
 		{
 			$values = [$values];
@@ -114,7 +114,6 @@ class Fieldset extends Field
 		{
 			return;
 		}
-
 
 		if($this->multi)
 		{
@@ -135,7 +134,6 @@ class Fieldset extends Field
 		$childNames = array_flip(array_keys($this->children));
 
 		$this->values = $values + $this->values;
-
 
 		$prototype = NULL;
 

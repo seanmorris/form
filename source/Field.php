@@ -315,6 +315,11 @@ class Field
 		//$attrs['value'] = $this->suppress ? NULL : $this->value;
 		unset($attrs['value']);
 
+		if($this->array)
+		{
+			$attrs['data-array'] = TRUE;
+		}
+
 		return $attrs;
 	}
 
