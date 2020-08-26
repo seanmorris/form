@@ -8,13 +8,13 @@ class ProfileForm extends \SeanMorris\Form\Form
 			, 'height' => 'SeanMorris\Form\Test\Extension\HeightField'
 			, 'avatar' => 'SeanMorris\Form\Test\Extension\AvatarField'
 		];
-		
+
 	public function __construct($skeleton = [])
 	{
 		$skeleton['_method'] = 'POST';
 		$skeleton['_theme'] = 'SeanMorris\Form\Test\Extension\Theme\ExtendedFormTheme';
 		$skeleton['_classes'] = ['testClass'];
-		
+
 		$skeleton['firstName'] = [
 			'_title'      => 'First Name'
 			, 'type'      => 'name'
@@ -45,6 +45,7 @@ class ProfileForm extends \SeanMorris\Form\Form
 
 		$skeleton['submit'] = [
 			'type' => 'Submit'
+			, 'value' => 'submit'
 		];
 
 		parent::__construct($skeleton);

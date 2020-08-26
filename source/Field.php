@@ -251,7 +251,7 @@ class Field
 	/**
 	 * Return whether or not field is suppressed.
 	 *
-	 * @return bool true if suppresdes.
+	 * @return bool true if suppressed.
 	 */
 	public function suppress()
 	{

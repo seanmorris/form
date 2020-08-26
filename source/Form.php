@@ -60,10 +60,10 @@ class Form
 			, 'select' => 'SeanMorris\Form\SelectField'
 		]
 	;
-	
+
 	/**
 	 * Sets up the form.
-	 * 
+	 *
 	 * @param array $skeleton Information to set up form fields.
 	 */
 	public function __construct(array $skeleton = [])
@@ -93,7 +93,7 @@ class Form
 
 	/**
 	 * Process a list of fieldDefs into a list of field objects.
-	 * 
+	 *
 	 * @param $skeleton list of fieldDefs.
 	 */
 	public function processFieldDefs($skeleton)
@@ -156,7 +156,7 @@ class Form
 
 	/**
 	 * Returns a list of values from this forms fields.
-	 * 
+	 *
 	 * @return array List of values.
 	 */
 	public function getValues()
@@ -192,7 +192,7 @@ class Form
 
 	/**
 	 * Sets values forthis forms fields.
-	 * 
+	 *
 	 * @param array $values List of values.
 	 * @param array $override Override locked fields.
 	 */
@@ -235,7 +235,7 @@ class Form
 			}
 			else
 			{
-				$fields[$fieldName]->clear();
+				// $fields[$fieldName]->clear();
 			}
 		}
 
@@ -252,9 +252,9 @@ class Form
 
 	/**
 	 * Validates and sets values for this forms fields.
-	 * 
+	 *
 	 * @param array $values List of values.
-	 * 
+	 *
 	 * @return boolean TRUE if no errors were generated.
 	 */
 	public function validate(array $values = [])
@@ -274,7 +274,7 @@ class Form
 
 	/**
 	 * Returns a list of errors from validation.
-	 * 
+	 *
 	 * @return array list of any validation errors generated.
 	 */
 	public function errors()
@@ -284,9 +284,9 @@ class Form
 
 	/**
 	 * Renders the form.
-	 * 
+	 *
 	 * @param string $theme Classname of theme to use in rendering the form.
-	 * 
+	 *
 	 * @return object View object for form.
 	 */
 	public function render($theme = NULL)
@@ -328,7 +328,7 @@ class Form
 
 	/**
 	 * Return this form's list of field objects.
-	 * 
+	 *
 	 * @return array List of field objects.
 	 */
 	public function fields()
