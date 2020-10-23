@@ -171,8 +171,6 @@ class Fieldset extends Field
 				continue;
 			}
 
-			\SeanMorris\Ids\Log::error($childName, $values ?? NULL);
-
 			if($this->children[$childName] instanceof Fieldset)
 			{
 				$this->children[$childName]->clear();
