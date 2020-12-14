@@ -15,10 +15,10 @@ class Email extends Validator
 	public function validate($form, $field = NULL)
 	{
 		parent::validate($form, $field);
-		
+
 		$value = $field->value();
 
-		if(isset($value) && !filter_var($value, FILTER_VALIDATE_EMAIL))
+		if(isset($value) && $value && !filter_var($value, FILTER_VALIDATE_EMAIL))
 		{
 			$this->errors[] = $this->errorMessage;
 		}
