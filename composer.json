@@ -25,7 +25,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/seanmorris/ids"
+            "url": "https://github.com/seanmorris/ids.git"
         }
     ]
 }
