@@ -9,7 +9,7 @@
         }
     ],
     "license": "Apache-2.0",
-    "php": ">=7.1",
+    "php": ">=7.1|^8.0",
     "require-dev": {
         "simpletest/simpletest": "^1.1",
         "seanmorris/ids": "dev-sm-api-tooling as dev-master"
