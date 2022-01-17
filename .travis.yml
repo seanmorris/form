@@ -7,7 +7,5 @@ php:
   - '8.0'
   - nightly
 install:
-   - composer require simpletest/simpletest
-   - composer require seanmorris/theme
-   - composer require seanmorris/ids
+   - composer install
 script: php test/runTests.php
