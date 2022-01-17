@@ -21,18 +21,6 @@ commands:
           curl -s https://getcomposer.org/installer | php
           sudo mv composer.phar /usr/local/bin/composer
 
-  docker-permissions:
-    steps:
-      - run: | #!bash
-          sudo chgrp docker /usr/bin/docker  /var/run/docker.sock
-          sudo chmod    555 /usr/bin/docker  /var/run/docker.sock
-          sudo usermod -aG docker $USER
-          sudo find . -type d -exec chmod o-rwx  {} \;
-          sudo find . -type f -exec chmod o-rwx  {} \;
-          sudo find . -type d -exec chmod ug+rwx {} \;
-          sudo find . -type f -exec chmod ug+rw  {} \;
-          sudo find . -type f -exec chmod g+s    {} \;
-
 workflows:
   version: 2
   
@@ -56,7 +44,7 @@ jobs:
     steps:
       - checkout
       - install-composer-8_0
-      - run: composer install
+      - run: composer install --ignore-platform-reqs
       - run: php test/runTests.php
 
   self-test_8-1:
@@ -68,5 +56,5 @@ jobs:
     steps:
       - checkout
       - install-composer-8_1
-      - run: composer install
+      - run: composer install --ignore-platform-reqs
       - run: php test/runTests.php
