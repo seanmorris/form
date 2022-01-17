@@ -908,9 +908,7 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 	public function testRangeValidator()
 	{
 		$testMinMessage = "Test field must be at least 5.";
-
 		$testMaxMessage = "Test field must be at most 10.";
-
 		$testNanMessage = "Test field must be a number.";
 
 		$form = new \SeanMorris\Form\Form([
@@ -919,9 +917,9 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 				, '_title' => 'Test Field'
 				, '_validators' => [
 					'SeanMorris\Form\Validator\Range' => [
-						10  => $testMaxMessage
+						'nan' => $testNanMessage
 						, 5 => $testMinMessage
-						, 'nan' => $testNanMessage
+						, 10  => $testMaxMessage
 					]
 				]
 			]
@@ -931,35 +929,40 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$this->assertFalse(
 			$form->errors()
-			, 'Error thrown for no reason.'
+			, 'Error thrown for no reason: '
+				. print_r($form->errors(), 1)
 		);
 
 		$form->validate(['testField' => 2]);
 		
 		$this->assertTrue(
 			in_array($testMinMessage, $form->errors())
-			, 'Minumum value error not found.'
+			, 'Minumum value error not found: '
+				. print_r($form->errors(), 1)
 		);
 
 		$form->validate(['testField' => 12]);
 		
 		$this->assertTrue(
 			in_array($testMaxMessage, $form->errors())
-			, 'Maxiumum value error not found.'
+			, 'Maxiumum value error not found: '
+				. print_r($form->errors(), 1)
 		);
 
 		$form->validate(['testField' => 'STRING DATA']);
 		
 		$this->assertTrue(
 			in_array($testNanMessage, $form->errors())
-			, 'Nan value error not found.'
+			, 'Nan value error not found: '
+				. print_r($form->errors(), 1)
 		);
 
 		$form->validate(['testField' => 7]);
 		
 		$this->assertFalse(
 			$form->errors()
-			, 'Error thrown for no reason.'
+			, 'Error thrown for no reason: '
+				. print_r($form->errors(), 1)
 		);
 
 		$form = new \SeanMorris\Form\Form([
@@ -978,35 +981,40 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 
 		$this->assertFalse(
 			$form->errors()
-			, 'Error thrown for no reason. Shorthand syntax.'
+			, 'Error thrown for no reason, shorthand syntax: '
+				. print_r($form->errors(), 1)
 		);
 
 		$form->validate(['testField' => 2]);
 		
 		$this->assertTrue(
 			in_array($testMinMessage, $form->errors())
-			, 'Minumum value error not found. Shorthand syntax.'
+			, 'Minumum value error not found, shorthand syntax:'
+				. print_r($form->errors(), 1)
 		);
 
 		$form->validate(['testField' => 12]);
 		
 		$this->assertTrue(
 			in_array($testMaxMessage, $form->errors())
-			, 'Maxiumum value error not found. Shorthand syntax.'
+			, 'Maxiumum value error not found, shorthand syntax:'
+				. print_r($form->errors(), 1)
 		);
 
 		$form->validate(['testField' => 'STRING DATA']);
 		
 		$this->assertTrue(
 			in_array($testNanMessage, $form->errors())
-			, 'Nan value error not found. Shorthand syntax.'
+			, 'Nan value error not found, shorthand syntax:'
+				. print_r($form->errors(), 1)
 		);
 
 		$form->validate(['testField' => 7]);
 		
 		$this->assertFalse(
 			$form->errors()
-			, 'Error thrown for no reason. Shorthand syntax.'
+			, 'Error thrown for no reason, shorthand syntax: '
+				. print_r($form->errors(), 1)
 		);
 	}
 
