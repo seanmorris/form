@@ -1,6 +1,6 @@
 {
     "name": "seanmorris/form",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Simple, Object oriented forms for PHP.",
     "authors": [
         {
@@ -15,7 +15,7 @@
         "seanmorris/ids": "dev-sm-api-tooling as dev-master"
     },
     "require": {
-        "seanmorris/theme": "dev-master"
+        "seanmorris/theme": "^1.0"
     },
     "autoload": {
         "psr-4": {

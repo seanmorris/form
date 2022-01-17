@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/seanmorris/theme.git",
-                "reference": "e89e37bcc780b374922de28da8288ef2300bbe3a"
+                "reference": "6b1613006d3b6ce5167c61db05b8a8f3fe860cc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seanmorris/theme/zipball/e89e37bcc780b374922de28da8288ef2300bbe3a",
-                "reference": "e89e37bcc780b374922de28da8288ef2300bbe3a",
+                "url": "https://api.github.com/repos/seanmorris/theme/zipball/6b1613006d3b6ce5167c61db05b8a8f3fe860cc0",
+                "reference": "6b1613006d3b6ce5167c61db05b8a8f3fe860cc0",
                 "shasum": ""
             },
             "require-dev": {
@@ -44,9 +44,9 @@
             "description": "Simple, sane templating and theming for PHP",
             "support": {
                 "issues": "https://github.com/seanmorris/theme/issues",
-                "source": "https://github.com/seanmorris/theme/tree/master"
+                "source": "https://github.com/seanmorris/theme/tree/1.0.8"
             },
-            "time": "2022-01-17T20:58:49+00:00"
+            "time": "2022-01-17T21:40:49+00:00"
         }
     ],
     "packages-dev": [
