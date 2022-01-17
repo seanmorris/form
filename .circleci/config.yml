@@ -45,7 +45,7 @@ jobs:
       - checkout
       - install-composer-8_0
       - run: composer install --ignore-platform-reqs
-      - run: php test/runTests.php
+      - run: php vendor/seanmorris/ids/bin/idilic runTests seanmorris/form
 
   self-test_8-1:
     parallelism: 1
@@ -57,4 +57,4 @@ jobs:
       - checkout
       - install-composer-8_1
       - run: composer install --ignore-platform-reqs
-      - run: php test/runTests.php
+      - run: php vendor/seanmorris/ids/bin/idilic runTests seanmorris/form
