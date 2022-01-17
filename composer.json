@@ -1,5 +1,6 @@
 {
     "name": "seanmorris/form",
+    "version": "1.0.3",
     "description": "Simple, Object oriented forms for PHP.",
     "authors": [
         {
@@ -8,7 +9,7 @@
         }
     ],
     "license": "Apache-2.0",
-    "php": ">=5.4",
+    "php": ">=7.1",
     "require-dev": {
         "simpletest/simpletest": "^1.1",
         "seanmorris/ids": "dev-sm-api-tooling as dev-master"
