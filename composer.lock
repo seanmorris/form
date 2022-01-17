@@ -4,25 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3be5f0213547e2a5606729f3ef3acd4",
+    "content-hash": "ba68f3cb1126a09973dfda260e2e7371",
     "packages": [
         {
             "name": "seanmorris/theme",
-            "version": "1.0.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seanmorris/theme.git",
-                "reference": "97554e153312026c7db4af8ae3653d20fe9d117d"
+                "reference": "63b2d8ea233f1c2a5d35644f6284453ddd1371d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seanmorris/theme/zipball/97554e153312026c7db4af8ae3653d20fe9d117d",
-                "reference": "97554e153312026c7db4af8ae3653d20fe9d117d",
+                "url": "https://api.github.com/repos/seanmorris/theme/zipball/63b2d8ea233f1c2a5d35644f6284453ddd1371d7",
+                "reference": "63b2d8ea233f1c2a5d35644f6284453ddd1371d7",
                 "shasum": ""
             },
             "require-dev": {
                 "simpletest/simpletest": "dev-master"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -45,7 +46,7 @@
                 "issues": "https://github.com/seanmorris/theme/issues",
                 "source": "https://github.com/seanmorris/theme/tree/master"
             },
-            "time": "2017-07-02T12:52:16+00:00"
+            "time": "2022-01-17T20:27:39+00:00"
         }
     ],
     "packages-dev": [
@@ -177,6 +178,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "seanmorris/theme": 20,
         "seanmorris/ids": 20
     },
     "prefer-stable": false,
