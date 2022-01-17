@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b5d90d648655953bb9a65634c1649c4",
+    "content-hash": "b3be5f0213547e2a5606729f3ef3acd4",
     "packages": [
         {
             "name": "seanmorris/theme",
@@ -77,6 +77,7 @@
                     "SeanMorris\\Ids\\": "source/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
                     "name": "Sean Morris",
@@ -84,8 +85,8 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/seanmorris/ids/tree/sm-api-tooling",
-                "issues": "https://github.com/seanmorris/ids/issues"
+                "issues": "https://github.com/seanmorris/ids/issues",
+                "source": "https://github.com/seanmorris/ids/tree/sm-api-tooling"
             },
             "time": "2022-01-17T12:28:22+00:00"
         },

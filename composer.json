@@ -15,7 +15,7 @@
         "seanmorris/ids": "dev-sm-api-tooling as dev-master"
     },
     "require": {
-        "seanmorris/theme": "1.0.*"
+        "seanmorris/theme": "dev-master"
     },
     "autoload": {
         "psr-4": {
