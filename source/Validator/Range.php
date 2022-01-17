@@ -12,31 +12,9 @@ class Range extends Validator
 		$min = 0;
 		$max = 0;
 		
-		ksort($rules);
+		$this->rules = $rules;
 
-		foreach($rules as $rule => $error)
-		{
-			if($min < $rule)
-			{
-				$min = $rule;
-
-				$this->rules[$min] = $error;
-			}
-
-			if($max < $rule)
-			{
-				$max = $rule;
-
-				$this->rules[$max] = $error;
-			}
-
-			if($rule === 'nan')
-			{
-				$min = $rule;
-
-				$this->rules['nan'] = $error;
-			}
-		}
+		ksort($this->rules);
 	}
 
 	public function validate($form, $field = NULL)
@@ -48,6 +26,7 @@ class Range extends Validator
 		$nan = $keys[0];
 		$min = $keys[1];
 		$max = $keys[2];
+		
 		$val = $field->value();		
 
 		if(isset($val) && !is_numeric($val))

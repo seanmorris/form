@@ -43,23 +43,21 @@ class Form
 	/**
 	 * Shorthand mappting of field types to classes.
 	 */
-	protected static
-		$typesToClasses = [
-			null => 'SeanMorris\Form\Field'
-			, 'text' => 'SeanMorris\Form\Field'
-			, 'password' => 'SeanMorris\Form\PasswordField'
-			, 'hidden' => 'SeanMorris\Form\HiddenField'
-			, 'textarea' => 'SeanMorris\Form\TextareaField'
-			, 'fieldset' => 'SeanMorris\Form\Fieldset'
-			, 'checkbox' => 'SeanMorris\Form\CheckBoxField'
-			, 'radios' => 'SeanMorris\Form\RadiobuttonField'
-			, 'file' => 'SeanMorris\Form\FileField'
-			, 'html' => 'SeanMorris\Form\Html'
-			, 'submit' => 'SeanMorris\Form\SubmitField'
-			, 'button' => 'SeanMorris\Form\ButtonField'
-			, 'select' => 'SeanMorris\Form\SelectField'
-		]
-	;
+	protected static $typesToClasses = [
+		null         => 'SeanMorris\Form\Field'
+		, 'text'     => 'SeanMorris\Form\Field'
+		, 'password' => 'SeanMorris\Form\PasswordField'
+		, 'hidden'   => 'SeanMorris\Form\HiddenField'
+		, 'textarea' => 'SeanMorris\Form\TextareaField'
+		, 'fieldset' => 'SeanMorris\Form\Fieldset'
+		, 'checkbox' => 'SeanMorris\Form\CheckBoxField'
+		, 'radios'   => 'SeanMorris\Form\RadiobuttonField'
+		, 'file'     => 'SeanMorris\Form\FileField'
+		, 'html'     => 'SeanMorris\Form\Html'
+		, 'submit'   => 'SeanMorris\Form\SubmitField'
+		, 'button'   => 'SeanMorris\Form\ButtonField'
+		, 'select'   => 'SeanMorris\Form\SelectField'
+	];
 
 	/**
 	 * Sets up the form.

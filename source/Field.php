@@ -101,12 +101,12 @@ class Field
 	 */
 	protected static
 		$validatorShorthand = [
-			'_required' => 'SeanMorris\Form\Validator\Required'
-			, '_email' => 'SeanMorris\Form\Validator\Email'
-			, '_range' => 'SeanMorris\Form\Validator\Range'
-			, '_regex' => 'SeanMorris\Form\Validator\Regex'
-			, '_confirm' => 'SeanMorris\Form\Validator\Confirm'
-			, '_optionFilter' => 'SeanMorris\Form\Validator\OptionFilter'
+			'_optionFilter' => 'SeanMorris\Form\Validator\OptionFilter'
+			, '_required'   => 'SeanMorris\Form\Validator\Required'
+			, '_email'      => 'SeanMorris\Form\Validator\Email'
+			, '_range'      => 'SeanMorris\Form\Validator\Range'
+			, '_regex'      => 'SeanMorris\Form\Validator\Regex'
+			, '_confirm'    => 'SeanMorris\Form\Validator\Confirm'
 		]
 	;
 

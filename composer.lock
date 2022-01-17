@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba68f3cb1126a09973dfda260e2e7371",
+    "content-hash": "be1e74a2c55ccaa0811d93a5caed38ac",
     "packages": [
         {
             "name": "seanmorris/theme",
-            "version": "dev-master",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seanmorris/theme.git",
@@ -23,7 +23,6 @@
             "require-dev": {
                 "simpletest/simpletest": "dev-master"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -178,7 +177,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "seanmorris/theme": 20,
         "seanmorris/ids": 20
     },
     "prefer-stable": false,
