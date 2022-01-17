@@ -21,11 +21,5 @@
             "SeanMorris\\Form\\Test\\": "test/",
             "SeanMorris\\Form\\": "source/"
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/seanmorris/ids.git"
-        }
-    ]
+    }
 }
