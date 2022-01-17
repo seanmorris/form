@@ -42,18 +42,13 @@ class Range extends Validator
 	public function validate($form, $field = NULL)
 	{
 		parent::validate($form, $field);
-		reset($this->rules);
 
-		$nan = key($this->rules);
-		next($this->rules);
-		
-		$min = key($this->rules);
-		next($this->rules);
+		$keys = array_keys($this->rules);
 
-		$max = key($this->rules);
-		next($this->rules);
-
-		$val = $field->value();
+		$nan = $keys[0];
+		$min = $keys[1];
+		$max = $keys[2];
+		$val = $field->value();		
 
 		if(isset($val) && !is_numeric($val))
 		{
