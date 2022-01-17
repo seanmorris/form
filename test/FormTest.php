@@ -918,7 +918,7 @@ class FormTest extends \SeanMorris\Theme\Test\HtmlTestCase
 				, '_validators' => [
 					'SeanMorris\Form\Validator\Range' => [
 						'nan' => $testNanMessage
-						, 5 => $testMinMessage
+						, 5   => $testMinMessage
 						, 10  => $testMaxMessage
 					]
 				]
