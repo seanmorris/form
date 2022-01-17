@@ -1,24 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "c2c90b87a2ea052e4141eb5f0ab732b3",
-    "content-hash": "d4556b52686c40600c845a50515590f2",
+    "content-hash": "8b5d90d648655953bb9a65634c1649c4",
     "packages": [
         {
             "name": "seanmorris/theme",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seanmorris/theme.git",
-                "reference": "9cbcdb5ffae6439dbc3b15edaec2f73f4f9faead"
+                "reference": "97554e153312026c7db4af8ae3653d20fe9d117d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seanmorris/theme/zipball/9cbcdb5ffae6439dbc3b15edaec2f73f4f9faead",
-                "reference": "9cbcdb5ffae6439dbc3b15edaec2f73f4f9faead",
+                "url": "https://api.github.com/repos/seanmorris/theme/zipball/97554e153312026c7db4af8ae3653d20fe9d117d",
+                "reference": "97554e153312026c7db4af8ae3653d20fe9d117d",
                 "shasum": ""
             },
             "require-dev": {
@@ -42,30 +41,70 @@
                 }
             ],
             "description": "Simple, sane templating and theming for PHP",
-            "time": "2016-02-28 21:23:29"
+            "support": {
+                "issues": "https://github.com/seanmorris/theme/issues",
+                "source": "https://github.com/seanmorris/theme/tree/master"
+            },
+            "time": "2017-07-02T12:52:16+00:00"
         }
     ],
     "packages-dev": [
         {
-            "name": "simpletest/simpletest",
-            "version": "v1.1.7",
+            "name": "seanmorris/ids",
+            "version": "dev-sm-api-tooling",
             "source": {
                 "type": "git",
-                "url": "https://github.com/simpletest/simpletest.git",
-                "reference": "2f8c466c114bdb9c11028a0c3e6d1380ae6a18dc"
+                "url": "https://github.com/seanmorris/ids.git",
+                "reference": "e0b66d4eef4a28e415e7b94e3871e03170f83e25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simpletest/simpletest/zipball/2f8c466c114bdb9c11028a0c3e6d1380ae6a18dc",
-                "reference": "2f8c466c114bdb9c11028a0c3e6d1380ae6a18dc",
+                "url": "https://api.github.com/repos/seanmorris/ids/zipball/e0b66d4eef4a28e415e7b94e3871e03170f83e25",
+                "reference": "e0b66d4eef4a28e415e7b94e3871e03170f83e25",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9",
+                "simpletest/simpletest": "dev-master"
+            },
+            "bin": [
+                "bin/idilic"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SeanMorris\\Ids\\Test\\": "test/",
+                    "SeanMorris\\Ids\\": "source/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Sean Morris",
+                    "email": "sean@sean-morris.com"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/seanmorris/ids/tree/sm-api-tooling",
+                "issues": "https://github.com/seanmorris/ids/issues"
+            },
+            "time": "2022-01-17T12:28:22+00:00"
+        },
+        {
+            "name": "simpletest/simpletest",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/simpletest/simpletest.git",
+                "reference": "4fb6006517a1428785a0ea704fbedcc675421ec4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/simpletest/simpletest/zipball/4fb6006517a1428785a0ea704fbedcc675421ec4",
+                "reference": "4fb6006517a1428785a0ea704fbedcc675421ec4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.0.5"
-            },
-            "replace": {
-                "lastcraft/simpletest": "self.version",
-                "vierbergenlars/simpletest": "self.version"
+                "php": "^7.1"
             },
             "type": "library",
             "autoload": {
@@ -78,14 +117,6 @@
                 "LGPL-2.0+"
             ],
             "authors": [
-                {
-                    "name": "Lars Vierbergen",
-                    "email": "vierbergenlars@gmail.com"
-                },
-                {
-                    "name": "Lachlan Donald",
-                    "email": "lachlan@ljd.cc"
-                },
                 {
                     "name": "Marcus Baker",
                     "email": "marcus@lastcraft.com",
@@ -106,6 +137,17 @@
                 {
                     "name": "Edward Z. Yang",
                     "role": "Original developer"
+                },
+                {
+                    "name": "Lachlan Donald",
+                    "email": "lachlan@ljd.cc"
+                },
+                {
+                    "name": "Lars Vierbergen",
+                    "email": "vierbergenlars@gmail.com"
+                },
+                {
+                    "name": "Jens A. Koch"
                 }
             ],
             "description": "Unit testing, mock objects and web testing framework for PHP built around test cases.",
@@ -117,14 +159,28 @@
                 "testing",
                 "unit-test"
             ],
-            "time": "2015-09-21 18:19:52"
+            "support": {
+                "issues": "https://github.com/simpletest/simpletest/issues",
+                "source": "https://github.com/simpletest/simpletest/tree/master"
+            },
+            "time": "2019-09-17T15:08:22+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "seanmorris/ids",
+            "version": "dev-sm-api-tooling",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "seanmorris/ids": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }

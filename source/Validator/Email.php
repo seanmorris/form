@@ -18,7 +18,7 @@ class Email extends Validator
 
 		$value = $field->value();
 
-		if(isset($value) && $value && !filter_var($value, FILTER_VALIDATE_EMAIL))
+		if(!empty($value) && !filter_var($value, FILTER_VALIDATE_EMAIL))
 		{
 			$this->errors[] = $this->errorMessage;
 		}

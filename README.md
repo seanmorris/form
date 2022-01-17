@@ -12,7 +12,7 @@ Creating a form is simple. Elements starting with a letter or number are fields.
 
 Elements starting with a letter or number are rendered directly into the &lt;input&gt; or &lt;select&gt; tag. Elements beginning with an underscore are passed to logic but not rendered.
 
-For example, the _title attribute generates a &lt;label&gt; tag for the form field.
+For example, the \_title attribute generates a &lt;label tag for the form field.
 
 ```php
 $skeleton['_method'] = 'POST';
@@ -35,7 +35,7 @@ echo $form->render();
 
 # Validation
 
-Validators are specified on the _validators key. Its an array keyed by validator class. The values are arrays of arguments to pass to the constructor.
+Validators are specified on the \_validators key. Its an array keyed by validator class. The values are arrays of arguments to pass to the constructor.
 
 ```php
 $skeleton['testField'] = [

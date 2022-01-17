@@ -63,8 +63,6 @@ class Fieldset extends Field
 			{
 				$this->children[-1]->set('');
 			}
-
-			unset($this->children[0]);
 		}
 	}
 
@@ -227,11 +225,18 @@ class Fieldset extends Field
 	{
 		$fields = [];
 
-		$delta = -1;
-
 		foreach($this->children as $name => $field)
 		{
-			$fields[] = $field->render($theme);
+			$renderedField = $field->render($theme);
+
+			if($name === -1)
+			{
+				$renderedField = new \SeanMorris\Form\Theme\Template([
+					'body' => $renderedField
+				]);
+			}
+
+			$fields[] = $renderedField;
 		}
 
 		$rendered = $theme::render($this, [
