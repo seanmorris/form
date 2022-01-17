@@ -35,16 +35,12 @@ commands:
 
 workflows:
   version: 2
-
-  build-and-push:
-    jobs:
-      - self-test
   
-  build-and-push_8-0:
+  build-and-test_8-0:
     jobs:
       - self-test_8-0
   
-  build-and-push_8-1:
+  build-and-test_8-1:
     jobs:
       - self-test_8-1
 
