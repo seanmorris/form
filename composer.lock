@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/seanmorris/theme.git",
-                "reference": "63b2d8ea233f1c2a5d35644f6284453ddd1371d7"
+                "reference": "e89e37bcc780b374922de28da8288ef2300bbe3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seanmorris/theme/zipball/63b2d8ea233f1c2a5d35644f6284453ddd1371d7",
-                "reference": "63b2d8ea233f1c2a5d35644f6284453ddd1371d7",
+                "url": "https://api.github.com/repos/seanmorris/theme/zipball/e89e37bcc780b374922de28da8288ef2300bbe3a",
+                "reference": "e89e37bcc780b374922de28da8288ef2300bbe3a",
                 "shasum": ""
             },
             "require-dev": {
@@ -46,7 +46,7 @@
                 "issues": "https://github.com/seanmorris/theme/issues",
                 "source": "https://github.com/seanmorris/theme/tree/master"
             },
-            "time": "2022-01-17T20:27:39+00:00"
+            "time": "2022-01-17T20:58:49+00:00"
         }
     ],
     "packages-dev": [
